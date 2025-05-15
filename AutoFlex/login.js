@@ -1,24 +1,18 @@
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+// Import the functions you need from the SDKs you need
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getFirestore, collection, doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const storage = firebase.storage();
+        // Get Firebase service instances
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
 
         // Google Auth Provider
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        const googleProvider = new GoogleAuthProvider();
         
         // Facebook Auth Provider
-        const facebookProvider = new firebase.auth.FacebookAuthProvider();
+        const facebookProvider = new FacebookAuthProvider();
 
         // DOM Elements
         const loginForm = document.getElementById('login-form');
@@ -179,13 +173,13 @@ async function handleLogin(e) {
         showLoading(true);
         
         // Sign in with email and password
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         
         // Check if user profile exists
-        const userDoc = await db.collection('users').doc(user.uid).get();
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
         
-        if (userDoc.exists) {
+        if (userDoc.exists()) {
             // Redirect to appropriate dashboard based on user type
             const userData = userDoc.data();
             redirectToDashboard(userData.userType);
@@ -225,7 +219,7 @@ async function handleProfileSetup(e) {
             const password = document.getElementById('signup-password').value;
             
             try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 user = userCredential.user;
             } catch (error) {
                 console.error('Signup error:', error);
@@ -243,7 +237,7 @@ async function handleProfileSetup(e) {
             address: document.getElementById('address').value,
             email: user.email,
             userType: userType,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            createdAt: serverTimestamp()
         };
         
         // Add service provider specific fields if applicable
@@ -257,17 +251,17 @@ async function handleProfileSetup(e) {
         // Upload profile image if selected
         let profileImageUrl = null;
         if (profileImageFile) {
-            const storageRef = storage.ref(`profile_images/${user.uid}`);
-            await storageRef.put(profileImageFile);
-            profileImageUrl = await storageRef.getDownloadURL();
+            const storageRef = ref(storage, `profile_images/${user.uid}`);
+            await uploadBytes(storageRef, profileImageFile);
+            profileImageUrl = await getDownloadURL(storageRef);
             userData.profileImage = profileImageUrl;
         }
         
         // Save user data to Firestore
-        await db.collection('users').doc(user.uid).set(userData);
+        await setDoc(doc(db, 'users', user.uid), userData);
         
         // Update user profile
-        await user.updateProfile({
+        await updateProfile(user, {
             displayName: `${userData.firstName} ${userData.lastName}`,
             photoURL: profileImageUrl
         });
@@ -301,7 +295,7 @@ async function handleForgotPassword(e) {
     try {
         showLoading(true);
         
-        await auth.sendPasswordResetEmail(email);
+        await sendPasswordResetEmail(auth, email);
         
         showNotification('Password reset email sent. Check your inbox.', 'success');
         
@@ -324,7 +318,7 @@ async function signInWithProvider(provider, mode) {
         showLoading(true);
         
         // Sign in with popup
-        const result = await auth.signInWithPopup(provider);
+        const result = await signInWithPopup(auth, provider);
         const user = result.user;
         
         // Check if this is a new user
@@ -332,9 +326,9 @@ async function signInWithProvider(provider, mode) {
         
         if (isNewUser || mode === 'signup') {
             // Check if profile exists
-            const userDoc = await db.collection('users').doc(user.uid).get();
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
             
-            if (!userDoc.exists) {
+            if (!userDoc.exists()) {
                 // Pre-fill profile form with information from provider
                 document.getElementById('first-name').value = result.additionalUserInfo.profile.given_name || '';
                 document.getElementById('last-name').value = result.additionalUserInfo.profile.family_name || '';
@@ -362,9 +356,9 @@ async function signInWithProvider(provider, mode) {
             }
         } else {
             // Login mode - check if profile exists
-            const userDoc = await db.collection('users').doc(user.uid).get();
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
             
-            if (userDoc.exists) {
+            if (userDoc.exists()) {
                 // Redirect to dashboard
                 redirectToDashboard(userDoc.data().userType);
             } else {
@@ -439,15 +433,15 @@ function getAuthErrorMessage(error) {
 }
 
 // Auth state observer
-auth.onAuthStateChanged(user => {
+onAuthStateChanged(auth, user => {
     if (user) {
         // User is signed in
         console.log('User is signed in:', user.email);
         
         // Check if the user has completed profile setup
-        db.collection('users').doc(user.uid).get()
+        getDoc(doc(db, 'users', user.uid))
             .then(doc => {
-                if (doc.exists) {
+                if (doc.exists()) {
                     // User has a profile, update UI or redirect if needed
                     const userData = doc.data();
                     
@@ -465,3 +459,6 @@ auth.onAuthStateChanged(user => {
         console.log('User is signed out');
     }
 });
+
+// Make app available globally (since login.js is not a module)
+window.app = app;
