@@ -5,795 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autoflex - Client Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #FF6A3D;
-            --secondary-color: #E85B25;
-            --dark-color: #333333;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Header */
-        header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
-        
-        .logo {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-link {
-            text-decoration: none;
-            color: var(--dark-color);
-            padding: 10px 15px;
-            margin: 0 5px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            background-color: rgba(255, 106, 61, 0.1);
-            color: var(--primary-color);
-        }
-        
-        .login-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .login-btn:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--dark-color);
-            cursor: pointer;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark-color);
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-        }
-        
-
-        
-        /* Dashboard Specific Styles */
-        .dashboard {
-            padding: 40px 0;
-            min-height: calc(100vh - 190px);
-            background-color: #f9f9f9;
-        }
-        
-        .dashboard-container {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .sidebar {
-            flex: 0 0 280px;
-            background-color: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-        }
-        
-        .main-content {
-            flex: 1;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .user-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background-color: #eee;
-            margin-right: 15px;
-            overflow: hidden;
-        }
-        
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .user-details h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: var(--dark-color);
-        }
-        
-        .user-details p {
-            margin: 5px 0 0;
-            color: #777;
-            font-size: 0.9rem;
-        }
-        
-        .nav-menu {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .nav-menu li {
-            margin-bottom: 5px;
-        }
-        
-        .nav-menu a {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            color: var(--dark-color);
-            text-decoration: none;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-menu a:hover {
-            background-color: rgba(255, 106, 61, 0.1);
-            color: var(--primary-color);
-        }
-        
-        .nav-menu a.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .nav-menu a i {
-            margin-right: 15px;
-            font-size: 1.2rem;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .dashboard-title {
-            margin: 0;
-            font-size: 1.8rem;
-            color: var(--dark-color);
-        }
-        
-        .dashboard-actions {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .dashboard-actions button {
-            background-color: white;
-            border: 1px solid #ddd;
-            padding: 8px 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .dashboard-actions button:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-        
-        .dashboard-actions button i {
-            margin-right: 8px;
-        }
-        
-        .card {
-            background-color: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .card-title {
-            margin: 0;
-            font-size: 1.4rem;
-            color: var(--dark-color);
-        }
-        
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .stat-card {
-            background-color: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-        }
-        
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background-color: rgba(255, 106, 61, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-        
-        .stat-icon i {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-        
-        .stat-details h4 {
-            margin: 0;
-            color: #777;
-            font-size: 0.9rem;
-            font-weight: normal;
-        }
-        
-        .stat-details p {
-            margin: 5px 0 0;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--dark-color);
-        }
-        
-        .appointment-card {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .appointment-card:hover {
-            background-color: rgba(255, 106, 61, 0.05);
-        }
-        
-        .appointment-card img {
-            width: 60px;
-            height: 60px;
-            border-radius: 10px;
-            object-fit: cover;
-            margin-right: 15px;
-        }
-        
-        .appointment-details {
-            flex: 1;
-        }
-        
-        .appointment-details h4 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--dark-color);
-        }
-        
-        .appointment-details p {
-            margin: 5px 0 0;
-            color: #777;
-            font-size: 0.9rem;
-        }
-        
-        .appointment-status {
-            background-color: #E8F5E9;
-            color: #388E3C;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        
-        .appointment-status.pending {
-            background-color: #FFF8E1;
-            color: #FFA000;
-        }
-        
-        .appointment-status.cancelled {
-            background-color: #FFEBEE;
-            color: #D32F2F;
-        }
-        
-        .appointment-card .appointment-time {
-            text-align: right;
-            padding-left: 15px;
-            border-left: 1px solid #eee;
-        }
-        
-        .appointment-card .appointment-time p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #777;
-        }
-        
-        .appointment-card .appointment-time p:first-child {
-            font-weight: 500;
-            color: var(--dark-color);
-            margin-bottom: 5px;
-        }
-        
-        .recent-providers {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        
-        .provider-card {
-            background-color: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .provider-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .provider-card img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 15px;
-        }
-        
-        .provider-card h4 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--dark-color);
-        }
-        
-        .provider-card p {
-            margin: 5px 0 15px;
-            color: #777;
-            font-size: 0.9rem;
-        }
-        
-        .provider-card .btn-book {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-        
-        .provider-card .btn-book:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal {
-            background-color: white;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-        }
-        
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .modal-title {
-            font-size: 1.5rem;
-            color: var(--dark-color);
-            margin: 0;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #777;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-close:hover {
-            color: var(--primary-color);
-        }
-        
-        .modal-body {
-            margin-bottom: 25px;
-        }
-        
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-        
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--dark-color);
-            font-weight: 500;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(255, 106, 61, 0.1);
-        }
-        
-        .form-select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 14px;
-        }
-        
-        .form-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .form-button:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        .form-button.secondary {
-            background-color: #f2f2f2;
-            color: var(--dark-color);
-        }
-        
-        .form-button.secondary:hover {
-            background-color: #e5e5e5;
-        }
-        
-        /* Vehicle Card */
-        .vehicle-card {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-        
-        .vehicle-card:hover {
-            background-color: rgba(255, 106, 61, 0.05);
-        }
-        
-        .vehicle-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 10px;
-            background-color: rgba(255, 106, 61, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-        }
-        
-        .vehicle-icon i {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-        }
-        
-        .vehicle-details {
-            flex: 1;
-        }
-        
-        .vehicle-details h4 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--dark-color);
-        }
-        
-        .vehicle-details p {
-            margin: 5px 0 0;
-            color: #777;
-            font-size: 0.9rem;
-        }
-        
-        .vehicle-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .vehicle-actions button {
-            background: none;
-            border: none;
-            color: #777;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 5px;
-        }
-        
-        .vehicle-actions button:hover {
-            color: var(--primary-color);
-        }
-        
-        .vehicle-actions .edit:hover {
-            color: #2196F3;
-        }
-        
-        .vehicle-actions .delete:hover {
-            color: #F44336;
-        }
-        
-        /* Loading Spinner */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .loading.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 106, 61, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 5px;
-            color: white;
-            font-weight: 500;
-            z-index: 9999;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-        
-        .notification.success {
-            background-color: #4CAF50;
-        }
-        
-        .notification.error {
-            background-color: #F44336;
-        }
-        
-        .notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Responsive */
-        @media (max-width: 992px) {
-            .dashboard-container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                flex: 0 0 auto;
-                margin-bottom: 30px;
-                position: static;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                flex-direction: column;
-                background-color: white;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-                padding: 20px;
-                display: none;
-            }
-            
-            .nav-links.show {
-                display: flex;
-            }
-            
-            .nav-link {
-                margin: 5px 0;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .recent-providers {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .appointment-card {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .appointment-card img {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-            
-            .appointment-card .appointment-time {
-                border-left: none;
-                border-top: 1px solid #eee;
-                padding-left: 0;
-                padding-top: 10px;
-                margin-top: 10px;
-                width: 100%;
-                text-align: left;
-            }
-            
-            .modal {
-                padding: 20px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="client-dashboard.css">
 </head>
 <body>
     <!-- Loading Spinner -->
@@ -829,7 +41,7 @@
                 <div class="sidebar">
                     <div class="user-info">
                         <div class="user-avatar">
-                            <img id="userAvatar" src="https://via.placeholder.com/70" alt="User Avatar">
+                            <img id="userAvatar" src="/api/placeholder/70/70" alt="User Avatar">
                         </div>
                         <div class="user-details">
                             <h3 id="userName">Loading...</h3>
@@ -1180,831 +392,1815 @@
 
     <!-- App Script -->
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBCJXaADkSOQO9CcV2qub7Fwlu9o4OPSPc",
-            authDomain: "autoflex-83dba.firebaseapp.com",
-            projectId: "autoflex-83dba",
-            storageBucket: "autoflex-83dba.firebasestorage.app",
-            messagingSenderId: "921645337376",
-            appId: "1:921645337376:web:fbd7dfd8fb9ef056e7a545",
-            measurementId: "G-DV3KB8X20D"
-        };
-        
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const storage = firebase.storage();
-        
-        // DOM Elements
-        const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
-        const userEmail = document.getElementById('userEmail');
-        const upcomingAppointmentsCount = document.getElementById('upcomingAppointmentsCount');
-        const registeredVehiclesCount = document.getElementById('registeredVehiclesCount');
-        const completedServicesCount = document.getElementById('completedServicesCount');
-        const appointmentsContainer = document.getElementById('appointmentsContainer');
-        const noAppointmentsMessage = document.getElementById('noAppointmentsMessage');
-        const recentProvidersContainer = document.getElementById('recentProvidersContainer');
-        const noProvidersMessage = document.getElementById('noProvidersMessage');
-        const loading = document.getElementById('loading');
-        const notification = document.getElementById('notification');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-        const addVehicleBtn = document.getElementById('addVehicleBtn');
-        const addVehicleBtn2 = document.getElementById('addVehicleBtn2');
-        const bookServiceBtn = document.getElementById('bookServiceBtn');
-        const bookServiceBtn2 = document.getElementById('bookServiceBtn2');
-        const markAllAsReadBtn = document.getElementById('markAllAsReadBtn');
-        const addVehicleModal = document.getElementById('addVehicleModal');
-        const closeAddVehicleModal = document.getElementById('closeAddVehicleModal');
-        const cancelAddVehicle = document.getElementById('cancelAddVehicle');
-        const saveVehicle = document.getElementById('saveVehicle');
-        const addVehicleForm = document.getElementById('addVehicleForm');
-        const bookServiceModal = document.getElementById('bookServiceModal');
-        const closeBookServiceModal = document.getElementById('closeBookServiceModal');
-        const cancelBookService = document.getElementById('cancelBookService');
-        const confirmBookService = document.getElementById('confirmBookService');
-        const bookServiceForm = document.getElementById('bookServiceForm');
-        const contentSections = document.querySelectorAll('.content-section');
-        const dashboardSection = document.getElementById('dashboardSection');
-        const vehiclesSection = document.getElementById('vehiclesSection');
-        const appointmentsSection = document.getElementById('appointmentsSection');
-        const historySection = document.getElementById('historySection');
-        const notificationsSection = document.getElementById('notificationsSection');
-        const settingsSection = document.getElementById('settingsSection');
-        const navMenuLinks = document.querySelectorAll('.nav-menu a');
-        const viewAllLinks = document.querySelectorAll('.view-all');
-        
-        // Utility Functions
-        function showLoading(show) {
-            loading.classList.toggle('active', show);
-        }
-        
-        function showNotification(message, type) {
-            notification.textContent = message;
-            notification.className = `notification ${type} show`;
-            setTimeout(() => notification.classList.remove('show'), 3000);
-        }
-        
-        function formatDate(date) {
-            return date.toLocaleDateString('en-US', { 
-                weekday: 'short', 
-                month: 'short', 
-                day: 'numeric' 
-            });
-        }
-        
-        function formatTime(date) {
-            return date.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-        }
-        
-        // Authentication
-        function handleAuthState(user) {
-            if (user) {
-                loadUserData(user);
-                loadDashboardData(user.uid);
-            } else {
-                window.location.href = 'login.html';
-            }
-        }
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyBCJXaADkSOQO9CcV2qub7Fwlu9o4OPSPc",
+    authDomain: "autoflex-83dba.firebaseapp.com",
+    projectId: "autoflex-83dba",
+    storageBucket: "autoflex-83dba.appspot.com",
+    messagingSenderId: "921645337376",
+    appId: "1:921645337376:web:fbd7dfd8fb9ef056e7a545",
+    measurementId: "G-DV3KB8X20D"
+};
 
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
 
+// DOM Elements
+const userAvatar = document.getElementById('userAvatar');
+const userName = document.getElementById('userName');
+const userEmail = document.getElementById('userEmail');
+const upcomingAppointmentsCount = document.getElementById('upcomingAppointmentsCount');
+const registeredVehiclesCount = document.getElementById('registeredVehiclesCount');
+const completedServicesCount = document.getElementById('completedServicesCount');
+const appointmentsContainer = document.getElementById('appointmentsContainer');
+const noAppointmentsMessage = document.getElementById('noAppointmentsMessage');
+const recentProvidersContainer = document.getElementById('recentProvidersContainer');
+const noProvidersMessage = document.getElementById('noProvidersMessage');
+const loading = document.getElementById('loading');
+const notification = document.getElementById('notification');
+const logoutBtn = document.getElementById('logoutBtn');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navLinks = document.getElementById('navLinks');
+const addVehicleBtn = document.getElementById('addVehicleBtn');
+const addVehicleBtn2 = document.getElementById('addVehicleBtn2');
+const bookServiceBtn = document.getElementById('bookServiceBtn');
+const bookServiceBtn2 = document.getElementById('bookServiceBtn2');
+const markAllAsReadBtn = document.getElementById('markAllAsReadBtn');
+const addVehicleModal = document.getElementById('addVehicleModal');
+const closeAddVehicleModal = document.getElementById('closeAddVehicleModal');
+const cancelAddVehicle = document.getElementById('cancelAddVehicle');
+const saveVehicle = document.getElementById('saveVehicle');
+const addVehicleForm = document.getElementById('addVehicleForm');
+const bookServiceModal = document.getElementById('bookServiceModal');
+const closeBookServiceModal = document.getElementById('closeBookServiceModal');
+const cancelBookService = document.getElementById('cancelBookService');
+const confirmBookService = document.getElementById('confirmBookService');
+const bookServiceForm = document.getElementById('bookServiceForm');
+const contentSections = document.querySelectorAll('.content-section');
+const dashboardSection = document.getElementById('dashboardSection');
+const vehiclesSection = document.getElementById('vehiclesSection');
+const appointmentsSection = document.getElementById('appointmentsSection');
+const historySection = document.getElementById('historySection');
+const notificationsSection = document.getElementById('notificationsSection');
+const settingsSection = document.getElementById('settingsSection');
+const navMenuLinks = document.querySelectorAll('.nav-menu a');
+const viewAllLinks = document.querySelectorAll('.view-all');
 
-        
-        // Data Loading
-        async function loadUserData(user) {
-            showLoading(true);
-            try {
-                const userRef = db.collection('users').doc(user.uid);
-                const doc = await userRef.get();
-                
-                if (!doc.exists) {
-                    await userRef.set({
-                        firstName: user.displayName?.split(' ')[0] || 'User',
-                        lastName: user.displayName?.split(' ')[1] || 'Name',
-                        email: user.email,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
+// Additional DOM elements
+const vehiclesContainer = document.getElementById('vehiclesContainer');
+const noVehiclesMessage = document.getElementById('noVehiclesMessage');
+const upcomingAppointmentsContainer = document.getElementById('upcomingAppointmentsContainer');
+const noUpcomingAppointmentsMessage = document.getElementById('noUpcomingAppointmentsMessage');
+const pastAppointmentsContainer = document.getElementById('pastAppointmentsContainer');
+const noPastAppointmentsMessage = document.getElementById('noPastAppointmentsMessage');
+const serviceHistoryContainer = document.getElementById('serviceHistoryContainer');
+const noServiceHistoryMessage = document.getElementById('noServiceHistoryMessage');
+const notificationsContainer = document.getElementById('notificationsContainer');
+const noNotificationsMessage = document.getElementById('noNotificationsMessage');
+const serviceVehicleSelect = document.getElementById('serviceVehicle');
 
-                const userData = (await userRef.get()).data();
-                userName.textContent = `${userData.firstName} ${userData.lastName}`;
-                userEmail.textContent = userData.email;
-                userAvatar.src = userData.profileImage || 'https://via.placeholder.com/70';
-            } catch (error) {
-                console.error('Error loading user data:', error);
-                showNotification('Error loading user data', 'error');
-            }
-            showLoading(false);
-        }
-        
-        async function loadDashboardData(userId) {
-            showLoading(true);
-            try {
-                // Load vehicles count
-                const vehiclesSnapshot = await db.collection('vehicles')
-                    .where('ownerId', '==', userId)
-                    .get();
-                registeredVehiclesCount.textContent = vehiclesSnapshot.size;
+// Track current section and user data
+let currentSection = 'dashboard';
+let currentUser = null;
+let userVehicles = [];
+let dataLoaded = {
+    vehicles: false,
+    appointments: false,
+    history: false,
+    notifications: false
+};
 
-                // Load upcoming appointments
-                const appointmentsSnapshot = await db.collection('appointments')
-                    .where('clientId', '==', userId)
-                    .where('status', 'in', ['scheduled', 'confirmed'])
-                    .orderBy('date', 'asc')
-                    .limit(3)
-                    .get();
-                
-                upcomingAppointmentsCount.textContent = appointmentsSnapshot.size;
-                appointmentsContainer.innerHTML = '';
-                
-                if (appointmentsSnapshot.empty) {
-                    noAppointmentsMessage.style.display = 'block';
-                } else {
-                    noAppointmentsMessage.style.display = 'none';
-                    appointmentsSnapshot.forEach(doc => {
-                        const appointment = doc.data();
-                        const date = appointment.date.toDate();
-                        appointmentsContainer.appendChild(createAppointmentCard(appointment, date));
-                    });
-                }
+// Utility Functions
+function showLoading(show) {
+    if (loading) {
+        loading.classList.toggle('active', show);
+    }
+}
 
-                // Load completed services count
-                const completedSnapshot = await db.collection('appointments')
-                    .where('clientId', '==', userId)
-                    .where('status', '==', 'completed')
-                    .get();
-                completedServicesCount.textContent = completedSnapshot.size;
+function showNotification(message, type = 'info') {
+    if (notification) {
+        notification.textContent = message;
+        notification.className = `notification ${type} show`;
+        setTimeout(() => notification.classList.remove('show'), 3000);
+    }
+}
 
-                // Load recent providers
-                const providersSnapshot = await db.collection('providers')
-                    .limit(4)
-                    .get();
-                
-                recentProvidersContainer.innerHTML = '';
-                
-                if (providersSnapshot.empty) {
-                    noProvidersMessage.style.display = 'block';
-                } else {
-                    noProvidersMessage.style.display = 'none';
-                    providersSnapshot.forEach(doc => {
-                        const provider = doc.data();
-                        recentProvidersContainer.appendChild(createProviderCard(provider));
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading dashboard data:', error);
-                showNotification('Error loading dashboard data', 'error');
-            }
-            showLoading(false);
-        }
-        
-        function createAppointmentCard(appointment, date) {
-            const statusClasses = {
-                'scheduled': 'pending',
-                'confirmed': '',
-                'in-progress': '',
-                'completed': '',
-                'cancelled': 'cancelled'
-            };
-            
-            const statusLabels = {
-                'scheduled': 'Pending',
-                'confirmed': 'Confirmed',
-                'in-progress': 'In Progress',
-                'completed': 'Completed',
-                'cancelled': 'Cancelled'
-            };
-            
-            const card = document.createElement('div');
-            card.className = 'appointment-card';
-            card.innerHTML = `
-                <img src="${appointment.providerImage || 'https://via.placeholder.com/60'}" alt="${appointment.providerName}">
-                <div class="appointment-details">
-                    <h4>${appointment.providerName}</h4>
-                    <p>${appointment.serviceType}</p>
-                    <span class="appointment-status ${statusClasses[appointment.status]}">${statusLabels[appointment.status]}</span>
-                </div>
-                <div class="appointment-time">
-                    <p>${formatDate(date)}</p>
-                    <p>${formatTime(date)}</p>
-                </div>
-            `;
-            return card;
-        }
-        
-        function createProviderCard(provider) {
-            const card = document.createElement('div');
-            card.className = 'provider-card';
-            card.innerHTML = `
-                <img src="${provider.image || 'https://via.placeholder.com/80'}" alt="${provider.name}">
-                <h4>${provider.name}</h4>
-                <p>${provider.specialty || 'Auto Services'}</p>
-                <button class="btn-book">Book Service</button>
-            `;
-            return card;
-        }
-        
-        async function loadVehicles() {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
-            
-            showLoading(true);
-            const vehiclesContainer = document.getElementById('vehiclesContainer');
-            const noVehiclesMessage = document.getElementById('noVehiclesMessage');
-            
-            try {
-                const querySnapshot = await db.collection('vehicles')
-                    .where('ownerId', '==', userId)
-                    .get();
-                
-                vehiclesContainer.innerHTML = '';
-                
-                if (querySnapshot.empty) {
-                    noVehiclesMessage.style.display = 'block';
-                } else {
-                    noVehiclesMessage.style.display = 'none';
-                    querySnapshot.forEach(doc => {
-                        const vehicle = doc.data();
-                        const vehicleCard = document.createElement('div');
-                        vehicleCard.className = 'vehicle-card';
-                        vehicleCard.innerHTML = `
-                            <div class="vehicle-icon">
-                                <i class="fas fa-car"></i>
-                            </div>
-                            <div class="vehicle-details">
-                                <h4>${vehicle.make} ${vehicle.model} (${vehicle.year})</h4>
-                                <p>${vehicle.licensePlate} • ${vehicle.color} • ${vehicle.type}</p>
-                            </div>
-                            <div class="vehicle-actions">
-                                <button class="edit" data-id="${doc.id}"><i class="fas fa-edit"></i></button>
-                                <button class="delete" data-id="${doc.id}"><i class="fas fa-trash"></i></button>
-                            </div>
-                        `;
-                        vehiclesContainer.appendChild(vehicleCard);
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading vehicles:', error);
-                showNotification('Error loading vehicles', 'error');
-            }
-            showLoading(false);
-        }
-        
-        async function loadAllAppointments() {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
-            
-            showLoading(true);
-            const upcomingContainer = document.getElementById('upcomingAppointmentsContainer');
-            const pastContainer = document.getElementById('pastAppointmentsContainer');
-            const noUpcomingMessage = document.getElementById('noUpcomingAppointmentsMessage');
-            const noPastMessage = document.getElementById('noPastAppointmentsMessage');
-            
-            try {
-                // Clear containers
-                upcomingContainer.innerHTML = '';
-                pastContainer.innerHTML = '';
-                
-                // Load upcoming appointments
-                const upcomingSnapshot = await db.collection('appointments')
-                    .where('clientId', '==', userId)
-                    .where('status', 'in', ['scheduled', 'confirmed', 'in-progress'])
-                    .orderBy('date', 'asc')
-                    .get();
-                
-                if (upcomingSnapshot.empty) {
-                    noUpcomingMessage.style.display = 'block';
-                } else {
-                    noUpcomingMessage.style.display = 'none';
-                    upcomingSnapshot.forEach(doc => {
-                        const appointment = doc.data();
-                        const date = appointment.date.toDate();
-                        upcomingContainer.appendChild(createAppointmentCard(appointment, date));
-                    });
-                }
-                
-                // Load past appointments
-                const pastSnapshot = await db.collection('appointments')
-                    .where('clientId', '==', userId)
-                    .where('status', 'in', ['completed', 'cancelled'])
-                    .orderBy('date', 'desc')
-                    .limit(10)
-                    .get();
-                
-                if (pastSnapshot.empty) {
-                    noPastMessage.style.display = 'block';
-                } else {
-                    noPastMessage.style.display = 'none';
-                    pastSnapshot.forEach(doc => {
-                        const appointment = doc.data();
-                        const date = appointment.date.toDate();
-                        pastContainer.appendChild(createAppointmentCard(appointment, date));
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading appointments:', error);
-                showNotification('Error loading appointments', 'error');
-            }
-            showLoading(false);
-        }
-        
-        async function loadServiceHistory() {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
-            
-            showLoading(true);
-            const historyContainer = document.getElementById('serviceHistoryContainer');
-            const noHistoryMessage = document.getElementById('noServiceHistoryMessage');
-            
-            try {
-                const querySnapshot = await db.collection('appointments')
-                    .where('clientId', '==', userId)
-                    .where('status', '==', 'completed')
-                    .orderBy('date', 'desc')
-                    .get();
-                
-                historyContainer.innerHTML = '';
-                
-                if (querySnapshot.empty) {
-                    noHistoryMessage.style.display = 'block';
-                } else {
-                    noHistoryMessage.style.display = 'none';
-                    querySnapshot.forEach(doc => {
-                        const appointment = doc.data();
-                        const date = appointment.date.toDate();
-                        historyContainer.appendChild(createServiceHistoryCard(appointment, date));
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading service history:', error);
-                showNotification('Error loading service history', 'error');
-            }
-            showLoading(false);
-        }
-        
-        function createServiceHistoryCard(appointment, date) {
-            const card = document.createElement('div');
-            card.className = 'appointment-card';
-            card.innerHTML = `
-                <img src="${appointment.providerImage || 'https://via.placeholder.com/60'}" alt="${appointment.providerName}">
-                <div class="appointment-details">
-                    <h4>${appointment.providerName}</h4>
-                    <p>${appointment.serviceType}</p>
-                    <p>Vehicle: ${appointment.vehicleMake} ${appointment.vehicleModel}</p>
-                </div>
-                <div class="appointment-time">
-                    <p>${formatDate(date)}</p>
-                    <p>Completed</p>
-                </div>
-            `;
-            return card;
-        }
-        
-        async function loadNotifications() {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
-            
-            showLoading(true);
-            const notificationsContainer = document.getElementById('notificationsContainer');
-            const noNotificationsMessage = document.getElementById('noNotificationsMessage');
-            
-            try {
-                const querySnapshot = await db.collection('notifications')
-                    .where('userId', '==', userId)
-                    .orderBy('createdAt', 'desc')
-                    .get();
-                
-                notificationsContainer.innerHTML = '';
-                
-                if (querySnapshot.empty) {
-                    noNotificationsMessage.style.display = 'block';
-                } else {
-                    noNotificationsMessage.style.display = 'none';
-                    querySnapshot.forEach(doc => {
-                        const notification = doc.data();
-                        notificationsContainer.appendChild(createNotificationCard(notification));
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading notifications:', error);
-                showNotification('Error loading notifications', 'error');
-            }
-            showLoading(false);
-        }
-        
-        function createNotificationCard(notification) {
-            const date = notification.createdAt.toDate();
-            const card = document.createElement('div');
-            card.className = `appointment-card ${notification.read ? '' : 'unread'}`;
-            card.innerHTML = `
-                <div class="vehicle-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="appointment-details">
-                    <h4>${notification.title}</h4>
-                    <p>${notification.message}</p>
-                </div>
-                <div class="appointment-time">
-                    <p>${formatDate(date)}</p>
-                    <p>${formatTime(date)}</p>
-                </div>
-            `;
-            return card;
-        }
-        
-        async function loadProfileSettings() {
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            showLoading(true);
-            
-            try {
-                const doc = await db.collection('users').doc(user.uid).get();
-                if (doc.exists) {
-                    const userData = doc.data();
-                    document.getElementById('firstName').value = userData.firstName || '';
-                    document.getElementById('lastName').value = userData.lastName || '';
-                    document.getElementById('email').value = userData.email || user.email || '';
-                    document.getElementById('phone').value = userData.phone || '';
-                }
-            } catch (error) {
-                console.error('Error loading profile data:', error);
-                showNotification('Error loading profile data', 'error');
-            }
-            showLoading(false);
-        }
-        
-        // Event Listeners
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-        });
-        
+function formatDate(date) {
+    if (!(date instanceof Date) || isNaN(date)) {
+        console.error("Invalid date provided:", date);
+        return "Invalid Date";
+    }
+    
+    return date.toLocaleDateString('en-US', { 
+        weekday: 'short', 
+        month: 'short', 
+        day: 'numeric' 
+    });
+}
+
+function formatTime(date) {
+    if (!(date instanceof Date) || isNaN(date)) {
+        console.error("Invalid date provided:", date);
+        return "Invalid Time";
+    }
+    
+    return date.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+    });
+}
+
+// Authentication and User Management
+function initializeAuth() {
+    // Add authentication state observer
+    auth.onAuthStateChanged(handleAuthState);
+    
+    // Handle logout
+    if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             showLoading(true);
-            auth.signOut().catch(error => {
-                console.error('Error signing out:', error);
-                showNotification('Error signing out', 'error');
-                showLoading(false);
-            });
-        });
-        
-        // Modal Functions
-        function showAddVehicleModal() {
-            addVehicleModal.classList.add('active');
-        }
-        
-        function hideAddVehicleModal() {
-            addVehicleModal.classList.remove('active');
-            addVehicleForm.reset();
-        }
-        
-        async function showBookServiceModal() {
-            await loadVehiclesForServiceBooking();
-            bookServiceModal.classList.add('active');
-        }
-        
-        function hideBookServiceModal() {
-            bookServiceModal.classList.remove('active');
-            bookServiceForm.reset();
-        }
-        
-        async function loadVehiclesForServiceBooking() {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
-            
-            const serviceVehicleSelect = document.getElementById('serviceVehicle');
-            serviceVehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
-            
-            try {
-                const querySnapshot = await db.collection('vehicles')
-                    .where('ownerId', '==', userId)
-                    .get();
-                
-                querySnapshot.forEach(doc => {
-                    const vehicle = doc.data();
-                    const option = document.createElement('option');
-                    option.value = doc.id;
-                    option.textContent = `${vehicle.make} ${vehicle.model} (${vehicle.licensePlate})`;
-                    serviceVehicleSelect.appendChild(option);
+            auth.signOut()
+                .then(() => {
+                    showLoading(false);
+                    window.location.href = 'login.html';
+                })
+                .catch(error => {
+                    showLoading(false);
+                    console.error('Logout error:', error);
+                    showNotification('Logout failed. Please try again.', 'error');
                 });
-            } catch (error) {
-                console.error('Error loading vehicles:', error);
-                showNotification('Error loading vehicles', 'error');
+        });
+    }
+}
+
+function handleAuthState(user) {
+    if (user) {
+        console.log("User authenticated:", user.uid);
+        currentUser = user;
+        loadUserData(user);
+        loadDashboardData(user.uid);
+    } else {
+        console.log("No user authenticated, redirecting to login");
+        window.location.href = 'login.html';
+    }
+}
+
+// Data Loading
+async function loadUserData(user) {
+    showLoading(true);
+    try {
+        console.log("Loading user data for:", user.uid);
+        const userRef = db.collection('users').doc(user.uid);
+        const doc = await userRef.get();
+        
+        if (!doc.exists) {
+            console.log("Creating new user document");
+            await userRef.set({
+                firstName: user.displayName?.split(' ')[0] || 'User',
+                lastName: user.displayName?.split(' ')[1] || 'Name',
+                email: user.email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+
+        const userData = (await userRef.get()).data();
+        
+        if (userName) userName.textContent = `${userData.firstName} ${userData.lastName}`;
+        if (userEmail) userEmail.textContent = userData.email;
+        
+        // Properly handle profile image from Google or Firebase Storage
+        if (user.photoURL) {
+            console.log("Using Google profile image:", user.photoURL);
+            if (userAvatar) userAvatar.src = user.photoURL;
+        } else if (userData.profileImage) {
+            console.log("Using Firebase Storage profile image");
+            if (userAvatar) userAvatar.src = userData.profileImage;
+        } else {
+            console.log("Using placeholder image");
+            if (userAvatar) userAvatar.src = '/api/placeholder/70/70';
+        }
+        
+        // Pre-populate settings form
+        if (document.getElementById('firstName')) document.getElementById('firstName').value = userData.firstName || '';
+        if (document.getElementById('lastName')) document.getElementById('lastName').value = userData.lastName || '';
+        if (document.getElementById('email')) document.getElementById('email').value = userData.email || user.email || '';
+        if (document.getElementById('phone')) document.getElementById('phone').value = userData.phone || '';
+        
+    } catch (error) {
+        console.error('Error loading user data:', error);
+        showNotification('Error loading user data. Please try again.', 'error');
+    }
+    showLoading(false);
+}
+
+async function loadDashboardData(userId) {
+    showLoading(true);
+    try {
+        console.log("Loading dashboard data for:", userId);
+        
+        // Load vehicles count and data
+        await loadVehiclesData(userId);
+        
+        // Load upcoming appointments for dashboard
+        await loadAppointmentsData(userId, true);
+
+        // Load recent providers
+        await loadProvidersData();
+        
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        showNotification('Error loading dashboard data. Please try again.', 'error');
+    }
+    showLoading(false);
+}
+
+async function loadVehiclesData(userId) {
+    try {
+        console.log("Loading vehicles data for:", userId);
+        
+        const vehiclesSnapshot = await db.collection('vehicles')
+            .where('ownerId', '==', userId)
+            .get();
+        
+        console.log(`Found ${vehiclesSnapshot.size} vehicles`);
+        
+        // Update dashboard stats
+        if (registeredVehiclesCount) {
+            registeredVehiclesCount.textContent = vehiclesSnapshot.size;
+        }
+        
+        // Clear vehicles container and update vehicle select in booking form
+        if (vehiclesContainer) {
+            vehiclesContainer.innerHTML = '';
+        }
+        
+        if (serviceVehicleSelect) {
+            // Clear all options except the first one
+            while (serviceVehicleSelect.options.length > 1) {
+                serviceVehicleSelect.remove(1);
             }
         }
         
-        // Navigation
-        navMenuLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                navMenuLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                
-                const sectionId = link.getAttribute('data-section');
-                contentSections.forEach(section => {
-                    section.style.display = 'none';
-                });
-                document.getElementById(`${sectionId}Section`).style.display = 'block';
-                
-                switch(sectionId) {
-                    case 'vehicles':
-                        loadVehicles();
-                        break;
-                    case 'appointments':
-                        loadAllAppointments();
-                        break;
-                    case 'history':
-                        loadServiceHistory();
-                        break;
-                    case 'notifications':
-                        loadNotifications();
-                        break;
-                    case 'settings':
-                        loadProfileSettings();
-                        break;
-                }
-            });
-        });
+        // Process vehicles data
+        userVehicles = [];
         
-        viewAllLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = link.getAttribute('data-section');
-                document.querySelector(`.nav-menu a[data-section="${section}"]`).click();
-            });
-        });
-        
-        // Save Vehicle
-        saveVehicle.addEventListener('click', async () => {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
-            
-            const make = document.getElementById('vehicleMake').value.trim();
-            const model = document.getElementById('vehicleModel').value.trim();
-            const year = document.getElementById('vehicleYear').value.trim();
-            const license = document.getElementById('vehicleLicense').value.trim();
-            const type = document.getElementById('vehicleType').value;
-            const color = document.getElementById('vehicleColor').value.trim();
-            const mileage = document.getElementById('vehicleMileage').value.trim() || 0;
-            
-            if (!make || !model || !year || !license || !type || !color) {
-                showNotification('Please fill in all required fields', 'error');
-                return;
+        if (vehiclesSnapshot.empty) {
+            if (noVehiclesMessage) {
+                noVehiclesMessage.style.display = 'block';
+            }
+        } else {
+            if (noVehiclesMessage) {
+                noVehiclesMessage.style.display = 'none';
             }
             
-            showLoading(true);
-            
-            try {
-                await db.collection('vehicles').add({
-                    ownerId: userId,
-                    make,
-                    model,
-                    year: parseInt(year),
-                    licensePlate: license,
-                    type,
-                    color,
-                    mileage: parseInt(mileage),
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                showNotification('Vehicle added successfully', 'success');
-                hideAddVehicleModal();
-                loadVehicles();
-                loadDashboardData(userId);
-            } catch (error) {
-                console.error('Error adding vehicle:', error);
-                showNotification('Error adding vehicle', 'error');
-            }
-            showLoading(false);
-        });
-        
-        // Book Service
-        confirmBookService.addEventListener('click', async () => {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
-            
-            const vehicleId = document.getElementById('serviceVehicle').value;
-            const serviceType = document.getElementById('serviceType').value;
-            const provider = document.getElementById('serviceProvider').value;
-            const date = document.getElementById('serviceDate').value;
-            const time = document.getElementById('serviceTime').value;
-            const notes = document.getElementById('serviceNotes').value.trim();
-            
-            if (!vehicleId || !serviceType || !provider || !date || !time) {
-                showNotification('Please fill in all required fields', 'error');
-                return;
-            }
-            
-            showLoading(true);
-            
-            try {
-                const vehicleDoc = await db.collection('vehicles').doc(vehicleId).get();
-                if (!vehicleDoc.exists) {
-                    throw new Error('Vehicle not found');
-                }
-                
-                const vehicle = vehicleDoc.data();
-                const appointmentDate = new Date(`${date}T${time}`);
-                
-                const providerDetails = {
-                    'quick_auto': { name: 'Quick Auto Service', image: 'https://via.placeholder.com/60' },
-                    'elite_auto': { name: 'Elite Auto Repairs', image: 'https://via.placeholder.com/60' },
-                    'premium_care': { name: 'Premium Car Care', image: 'https://via.placeholder.com/60' },
-                    'autotech': { name: 'AutoTech Experts', image: 'https://via.placeholder.com/60' }
+            vehiclesSnapshot.forEach(doc => {
+                const vehicle = {
+                    id: doc.id,
+                    ...doc.data()
                 };
+                userVehicles.push(vehicle);
                 
-                await db.collection('appointments').add({
-                    clientId: userId,
-                    vehicleId,
-                    serviceType,
-                    providerId: provider,
-                    providerName: providerDetails[provider].name,
-                    providerImage: providerDetails[provider].image,
-                    vehicleMake: vehicle.make,
-                    vehicleModel: vehicle.model,
-                    vehicleLicense: vehicle.licensePlate,
-                    date: appointmentDate,
-                    notes,
-                    status: 'scheduled',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
+                // Add to vehicles container if it exists
+                if (vehiclesContainer) {
+                    vehiclesContainer.appendChild(createVehicleCard(vehicle));
+                }
                 
-                showNotification('Service booked successfully', 'success');
-                hideBookServiceModal();
-                loadDashboardData(userId);
-            } catch (error) {
-                console.error('Error booking service:', error);
-                showNotification('Error booking service', 'error');
-            }
-            showLoading(false);
-        });
+                // Add to service vehicle select if it exists
+                if (serviceVehicleSelect) {
+                    const option = document.createElement('option');
+                    option.value = vehicle.id;
+                    option.textContent = `${vehicle.year} ${vehicle.make} ${vehicle.model} (${vehicle.license})`;
+                    serviceVehicleSelect.appendChild(option);
+                }
+            });
+        }
         
-        // Mark all notifications as read
-        markAllAsReadBtn.addEventListener('click', async () => {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return;
+        // Mark vehicles data as loaded
+        dataLoaded.vehicles = true;
+        
+    } catch (error) {
+        console.error('Error loading vehicles data:', error);
+        showNotification('Error loading vehicles. Please try again.', 'error');
+    }
+}
+
+async function loadAppointmentsData(userId, dashboardOnly = false) {
+    try {
+        console.log("Loading appointments data for:", userId);
+        
+        // Get upcoming appointments
+        const upcomingQuery = db.collection('appointments')
+            .where('clientId', '==', userId)
+            .where('status', 'in', ['scheduled', 'confirmed'])
+            .orderBy('date', 'asc');
+        
+        const upcomingSnapshot = dashboardOnly 
+            ? await upcomingQuery.limit(3).get() 
+            : await upcomingQuery.get();
+        
+        console.log(`Found ${upcomingSnapshot.size} upcoming appointments`);
+        
+        // Update dashboard stats
+        if (upcomingAppointmentsCount) {
+            upcomingAppointmentsCount.textContent = upcomingSnapshot.size;
+        }
+        
+        // Update appointments containers
+        if (appointmentsContainer) {
+            appointmentsContainer.innerHTML = '';
             
-            showLoading(true);
+            if (upcomingSnapshot.empty) {
+                if (noAppointmentsMessage) {
+                    noAppointmentsMessage.style.display = 'block';
+                }
+            } else {
+                if (noAppointmentsMessage) {
+                    noAppointmentsMessage.style.display = 'none';
+                }
+                
+                upcomingSnapshot.forEach(doc => {
+                    const appointment = {
+                        id: doc.id,
+                        ...doc.data()
+                    };
+                    const date = appointment.date instanceof firebase.firestore.Timestamp 
+                        ? appointment.date.toDate() 
+                        : new Date(appointment.date);
+                    appointmentsContainer.appendChild(createAppointmentCard(appointment, date));
+                });
+            }
+        }
+        
+        // If loading full appointments data (not just for dashboard)
+        if (!dashboardOnly) {
+            // Update upcoming appointments section
+            if (upcomingAppointmentsContainer) {
+                upcomingAppointmentsContainer.innerHTML = '';
+                
+                if (upcomingSnapshot.empty) {
+                    if (noUpcomingAppointmentsMessage) {
+                        noUpcomingAppointmentsMessage.style.display = 'block';
+                    }
+                } else {
+                    if (noUpcomingAppointmentsMessage) {
+                        noUpcomingAppointmentsMessage.style.display = 'none';
+                    }
+                    
+                    upcomingSnapshot.forEach(doc => {
+                        const appointment = {
+                            id: doc.id,
+                            ...doc.data()
+                        };
+                        const date = appointment.date instanceof firebase.firestore.Timestamp 
+                            ? appointment.date.toDate() 
+                            : new Date(appointment.date);
+                        upcomingAppointmentsContainer.appendChild(createAppointmentCard(appointment, date, true));
+                    });
+                }
+            }
             
-            try {
-                const batch = db.batch();
-                const notificationsSnapshot = await db.collection('notifications')
-                    .where('userId', '==', userId)
-                    .where('read', '==', false)
-                    .get();
+            // Load past appointments
+            const pastSnapshot = await db.collection('appointments')
+                .where('clientId', '==', userId)
+                .where('status', 'in', ['completed', 'cancelled'])
+                .orderBy('date', 'desc')
+                .get();
+            
+            console.log(`Found ${pastSnapshot.size} past appointments`);
+            
+            // Update completed services count
+            const completedCount = pastSnapshot.docs.filter(doc => doc.data().status === 'completed').length;
+            if (completedServicesCount) {
+                completedServicesCount.textContent = completedCount;
+            }
+            
+            // Update past appointments container
+            if (pastAppointmentsContainer) {
+                pastAppointmentsContainer.innerHTML = '';
+                
+                if (pastSnapshot.empty) {
+                    if (noPastAppointmentsMessage) {
+                        noPastAppointmentsMessage.style.display = 'block';
+                    }
+                } else {
+                    if (noPastAppointmentsMessage) {
+                        noPastAppointmentsMessage.style.display = 'none';
+                    }
+                    
+                    pastSnapshot.forEach(doc => {
+                        const appointment = {
+                            id: doc.id,
+                            ...doc.data()
+                        };
+                        const date = appointment.date instanceof firebase.firestore.Timestamp 
+                            ? appointment.date.toDate() 
+                            : new Date(appointment.date);
+                        pastAppointmentsContainer.appendChild(createAppointmentCard(appointment, date, true));
+                    });
+                }
+            }
+            
+            // Update service history (reuse past appointments data)
+            if (serviceHistoryContainer) {
+                serviceHistoryContainer.innerHTML = '';
+                
+                if (pastSnapshot.empty) {
+                    if (noServiceHistoryMessage) {
+                        noServiceHistoryMessage.style.display = 'block';
+                    }
+                } else {
+                    const completedServices = pastSnapshot.docs.filter(doc => doc.data().status === 'completed');
+                    
+                    if (completedServices.length === 0) {
+                        if (noServiceHistoryMessage) {
+                            noServiceHistoryMessage.style.display = 'block';
+                        }
+                    } else {
+                        if (noServiceHistoryMessage) {
+                            noServiceHistoryMessage.style.display = 'none';
+                        }
+                        
+                        completedServices.forEach(doc => {
+                            const service = {
+                                id: doc.id,
+                                ...doc.data()
+                            };
+                            const date = service.date instanceof firebase.firestore.Timestamp 
+                                ? service.date.toDate() 
+                                : new Date(service.date);
+                            serviceHistoryContainer.appendChild(createServiceHistoryItem(service, date));
+                        });
+                    }
+                }
+            }
+        }
+        
+        // Mark appointments data as loaded
+        dataLoaded.appointments = true;
+        
+    } catch (error) {
+        console.error('Error loading appointments data:', error);
+        showNotification('Error loading appointments. Please try again.', 'error');
+    }
+}
+
+async function loadNotificationsData(userId) {
+    try {
+        console.log("Loading notifications data for:", userId);
+        
+        const notificationsSnapshot = await db.collection('notifications')
+            .where('userId', '==', userId)
+            .orderBy('createdAt', 'desc')
+            .limit(20)
+            .get();
+        
+        console.log(`Found ${notificationsSnapshot.size} notifications`);
+        
+        if (notificationsContainer) {
+            notificationsContainer.innerHTML = '';
+            
+            if (notificationsSnapshot.empty) {
+                if (noNotificationsMessage) {
+                    noNotificationsMessage.style.display = 'block';
+                }
+                
+                // If no notifications, create demo notifications
+                if (notificationsSnapshot.size === 0) {
+                    await seedDemoNotifications(userId);
+                    await loadNotificationsData(userId);
+                    return;
+                }
+            } else {
+                if (noNotificationsMessage) {
+                    noNotificationsMessage.style.display = 'none';
+                }
                 
                 notificationsSnapshot.forEach(doc => {
-                    batch.update(doc.ref, { read: true });
+                    const notification = {
+                        id: doc.id,
+                        ...doc.data()
+                    };
+                    const timestamp = notification.createdAt instanceof firebase.firestore.Timestamp 
+                        ? notification.createdAt.toDate() 
+                        : new Date(notification.createdAt);
+                    notificationsContainer.appendChild(createNotificationItem(notification, timestamp));
                 });
-                
-                await batch.commit();
-                showNotification('All notifications marked as read', 'success');
-                loadNotifications();
-            } catch (error) {
-                console.error('Error marking notifications as read:', error);
-                showNotification('Error marking notifications as read', 'error');
             }
-            showLoading(false);
+        }
+        
+        // Mark notifications data as loaded
+        dataLoaded.notifications = true;
+        
+    } catch (error) {
+        console.error('Error loading notifications data:', error);
+        showNotification('Error loading notifications. Please try again.', 'error');
+    }
+}
+
+async function loadProvidersData() {
+    try {
+        console.log("Loading providers data");
+        
+        const providersSnapshot = await db.collection('providers')
+            .limit(4)
+            .get();
+        
+        if (!recentProvidersContainer) return;
+        
+        recentProvidersContainer.innerHTML = '';
+        
+        if (providersSnapshot.empty) {
+            if (noProvidersMessage) {
+                noProvidersMessage.style.display = 'block';
+            }
+            
+            // If no providers exist, create demo providers
+            if (providersSnapshot.size === 0) {
+                console.log("No providers found, creating demo providers");
+                await seedDemoProviders();
+                await loadProvidersData();
+                return;
+            }
+        } else {
+            if (noProvidersMessage) {
+                noProvidersMessage.style.display = 'none';
+            }
+            
+            providersSnapshot.forEach(doc => {
+                const provider = {
+                    id: doc.id,
+                    ...doc.data()
+                };
+                recentProvidersContainer.appendChild(createProviderCard(provider));
+            });
+        }
+    } catch (error) {
+        console.error('Error loading providers data:', error);
+        showNotification('Error loading providers. Please try again.', 'error');
+    }
+}
+
+// UI Component Creators
+function createAppointmentCard(appointment, date, includeActions = false) {
+    const card = document.createElement('div');
+    card.className = 'appointment-card';
+    card.dataset.id = appointment.id;
+    
+    // Find matching vehicle
+    const matchingVehicle = userVehicles.find(v => v.id === appointment.vehicleId);
+    const vehicleInfo = matchingVehicle ? 
+        `${matchingVehicle.year} ${matchingVehicle.make} ${matchingVehicle.model}` : 
+        'Unknown Vehicle';
+    
+    // Service type formatting
+    const serviceType = appointment.serviceType
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    
+    // Status indicator class
+    let statusClass = '';
+    switch(appointment.status) {
+        case 'scheduled': statusClass = 'status-scheduled'; break;
+        case 'confirmed': statusClass = 'status-confirmed'; break;
+        case 'completed': statusClass = 'status-completed'; break;
+        case 'cancelled': statusClass = 'status-cancelled'; break;
+        default: statusClass = '';
+    }
+    
+    card.innerHTML = `
+        <div class="appointment-header ${statusClass}">
+            <h3 class="appointment-title">${serviceType}</h3>
+            <span class="appointment-status">${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</span>
+        </div>
+        <div class="appointment-details">
+            <div class="appointment-info">
+                <p><i class="fas fa-car"></i> ${vehicleInfo}</p>
+                <p><i class="fas fa-calendar"></i> ${formatDate(date)}</p>
+                <p><i class="fas fa-clock"></i> ${formatTime(date)}</p>
+                <p><i class="fas fa-building"></i> ${appointment.providerName || 'Unknown Provider'}</p>
+            </div>
+            ${appointment.notes ? `<div class="appointment-notes"><p>${appointment.notes}</p></div>` : ''}
+        </div>
+        ${includeActions ? `
+        <div class="appointment-actions">
+            ${appointment.status === 'scheduled' || appointment.status === 'confirmed' ? 
+                `<button class="action-btn cancel-btn" data-id="${appointment.id}">Cancel</button>
+                <button class="action-btn reschedule-btn" data-id="${appointment.id}">Reschedule</button>` : 
+                ''}
+            <button class="action-btn details-btn" data-id="${appointment.id}">Details</button>
+        </div>` : ''}
+    `;
+    
+    // Add event listeners for action buttons if needed
+    if (includeActions) {
+        const cancelBtns = card.querySelectorAll('.cancel-btn');
+        cancelBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleCancelAppointment(btn.dataset.id);
+            });
         });
         
-        // Save profile changes
-        document.getElementById('profileForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        const rescheduleBtns = card.querySelectorAll('.reschedule-btn');
+        rescheduleBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleRescheduleAppointment(btn.dataset.id);
+            });
+        });
+        
+        const detailsBtns = card.querySelectorAll('.details-btn');
+        detailsBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleViewAppointmentDetails(btn.dataset.id);
+            });
+        });
+    }
+    
+    return card;
+}
+
+function createVehicleCard(vehicle) {
+    const card = document.createElement('div');
+    card.className = 'vehicle-card';
+    card.dataset.id = vehicle.id;
+    
+    const vehicleIcon = getVehicleTypeIcon(vehicle.type);
+    
+    card.innerHTML = `
+        <div class="vehicle-header">
+            <div class="vehicle-icon">
+                <i class="${vehicleIcon}"></i>
+            </div>
+            <h3 class="vehicle-title">${vehicle.year} ${vehicle.make} ${vehicle.model}</h3>
+            <div class="vehicle-actions">
+                <button class="edit-vehicle-btn" data-id="${vehicle.id}"><i class="fas fa-edit"></i></button>
+                <button class="delete-vehicle-btn" data-id="${vehicle.id}"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+        <div class="vehicle-details">
+            <p><strong>License:</strong> ${vehicle.license}</p>
+            <p><strong>Type:</strong> ${vehicle.type.charAt(0).toUpperCase() + vehicle.type.slice(1)}</p>
+            <p><strong>Color:</strong> ${vehicle.color}</p>
+            ${vehicle.mileage ? `<p><strong>Mileage:</strong> ${vehicle.mileage.toLocaleString()} miles</p>` : ''}
+        </div>
+        <div class="vehicle-footer">
+            <button class="book-service-btn" data-id="${vehicle.id}">Book Service</button>
+            <button class="view-history-btn" data-id="${vehicle.id}">View History</button>
+        </div>
+    `;
+    
+    // Add event listeners
+    const editBtn = card.querySelector('.edit-vehicle-btn');
+    editBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleEditVehicle(vehicle.id);
+    });
+    
+    const deleteBtn = card.querySelector('.delete-vehicle-btn');
+    deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleDeleteVehicle(vehicle.id);
+    });
+    
+    const bookServiceBtn = card.querySelector('.book-service-btn');
+    bookServiceBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleBookServiceForVehicle(vehicle.id);
+    });
+    
+    const viewHistoryBtn = card.querySelector('.view-history-btn');
+    viewHistoryBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleViewVehicleHistory(vehicle.id);
+    });
+    
+    return card;
+}
+
+function createProviderCard(provider) {
+    const card = document.createElement('div');
+    card.className = 'provider-card';
+    card.dataset.id = provider.id;
+    
+    // Create star rating HTML
+    const fullStars = Math.floor(provider.rating);
+    const hasHalfStar = provider.rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    
+    let starsHtml = '';
+    for (let i = 0; i < fullStars; i++) {
+        starsHtml += '<i class="fas fa-star"></i>';
+    }
+    if (hasHalfStar) {
+        starsHtml += '<i class="fas fa-star-half-alt"></i>';
+    }
+    for (let i = 0; i < emptyStars; i++) {
+        starsHtml += '<i class="far fa-star"></i>';
+    }
+    
+    card.innerHTML = `
+        <div class="provider-logo">
+            <img src="${provider.image || '/api/placeholder/80/80'}" alt="${provider.name}">
+        </div>
+        <div class="provider-details">
+            <h3 class="provider-name">${provider.name}</h3>
+            <p class="provider-specialty">${provider.specialty}</p>
+            <div class="provider-rating">${starsHtml} <span>(${provider.rating})</span></div>
+        </div>
+    `;
+    
+    // Add click event to go to provider details
+    card.addEventListener('click', () => {
+        window.location.href = `provider-details.html?id=${provider.id}`;
+    });
+    
+    return card;
+}
+
+function createServiceHistoryItem(service, date) {
+    const item = document.createElement('div');
+    item.className = 'service-history-item';
+    item.dataset.id = service.id;
+    
+    // Find matching vehicle
+    const matchingVehicle = userVehicles.find(v => v.id === service.vehicleId);
+    const vehicleInfo = matchingVehicle ? 
+        `${matchingVehicle.year} ${matchingVehicle.make} ${matchingVehicle.model}` : 
+        'Unknown Vehicle';
+    
+    // Service type formatting
+    const serviceType = service.serviceType
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    
+    item.innerHTML = `
+        <div class="service-history-header">
+            <h3>${serviceType}</h3>
+            <span class="service-date">${formatDate(date)}</span>
+        </div>
+        <div class="service-history-details">
+            <p><strong>Vehicle:</strong> ${vehicleInfo}</p>
+            <p><strong>Provider:</strong> ${service.providerName || 'Unknown Provider'}</p>
+            ${service.cost ? `<p><strong>Cost:</strong> $${service.cost.toFixed(2)}</p>` : ''}
+            ${service.notes ? `<p><strong>Notes:</strong> ${service.notes}</p>` : ''}
+        </div>
+        <div class="service-history-actions">
+            <button class="view-details-btn" data-id="${service.id}">View Details</button>
+        </div>
+    `;
+    
+    // Add event listeners
+    const viewDetailsBtn = item.querySelector('.view-details-btn');
+    viewDetailsBtn.addEventListener('click', () => {
+        handleViewServiceDetails(service.id);
+    });
+    
+    return item;
+}
+
+function createNotificationItem(notification, timestamp) {
+    const item = document.createElement('div');
+    item.className = `notification-item ${notification.read ? 'read' : 'unread'}`;
+    item.dataset.id = notification.id;
+    
+    // Format the date
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    let dateText;
+    if (timestamp.getTime() >= today.getTime()) {
+        dateText = 'Today';
+    } else if (timestamp.getTime() >= yesterday.getTime()) {
+        dateText = 'Yesterday';
+    } else {
+        dateText = formatDate(timestamp);
+    }
+    
+    const timeText = formatTime(timestamp);
+    
+    item.innerHTML = `
+        <div class="notification-content">
+            <div class="notification-icon">
+                <i class="${getNotificationIcon(notification.type)}"></i>
+            </div>
+            <div class="notification-details">
+                <h4>${notification.title}</h4>
+                <p>${notification.message}</p>
+                <span class="notification-time">${dateText} at ${timeText}</span>
+            </div>
+        </div>
+        <div class="notification-actions">
+            ${!notification.read ? `<button class="mark-read-btn" data-id="${notification.id}">Mark as Read</button>` : ''}
+            <button class="delete-notification-btn" data-id="${notification.id}"><i class="fas fa-trash"></i></button>
+        </div>
+    `;
+    
+    // Add event listeners
+    const markReadBtn = item.querySelector('.mark-read-btn');
+    if (markReadBtn) {
+        markReadBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleMarkNotificationAsRead(notification.id);
+        });
+    }
+    
+    const deleteBtn = item.querySelector('.delete-notification-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleDeleteNotification(notification.id);
+        });
+    }
+    
+    return item;
+}
+
+// Utility functions for UI components
+function getVehicleTypeIcon(type) {
+    switch(type.toLowerCase()) {
+        case 'sedan': return 'fas fa-car';
+        case 'suv': return 'fas fa-truck';
+        case 'truck': return 'fas fa-truck-pickup';
+        case 'van': return 'fas fa-shuttle-van';
+        case 'coupe': return 'fas fa-car-side';
+        case 'hatchback': return 'fas fa-car-alt';
+        case 'convertible': return 'fas fa-car-side';
+        case 'electric': return 'fas fa-charging-station';
+        case 'hybrid': return 'fas fa-leaf';
+        default: return 'fas fa-car';
+    }
+}
+
+function getNotificationIcon(type) {
+    switch(type) {
+        case 'appointment': return 'fas fa-calendar-check';
+        case 'reminder': return 'fas fa-bell';
+        case 'maintenance': return 'fas fa-wrench';
+        case 'promotion': return 'fas fa-tag';
+        case 'system': return 'fas fa-info-circle';
+        default: return 'fas fa-bell';
+    }
+}
+
+// Event Handlers
+async function handleSwitchSection(section) {
+    // Don't reload if already on the section
+    if (currentSection === section) return;
+    
+    // Update current section
+    currentSection = section;
+    
+    // First hide all sections
+    contentSections.forEach(el => {
+        el.style.display = 'none';
+        el.classList.remove('active-section');
+    });
+    
+    // Update active menu item
+    navMenuLinks.forEach(link => {
+        if (link.dataset.section === section) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+    
+    // Show the selected section
+    const targetSection = document.getElementById(`${section}Section`);
+    if (targetSection) {
+        targetSection.style.display = 'block';
+        targetSection.classList.add('active-section');
+        
+        // Load section-specific data if needed and not already loaded
+        if (currentUser) {
+            const userId = currentUser.uid;
             
-            const user = auth.currentUser;
-            if (!user) return;
+            // Keep track of which sections data we've loaded during the session
+            // Fix: Now we'll load data every time the section is opened
+            if (section === 'vehicles') {
+                await loadVehiclesData(userId);
+            } else if (section === 'appointments') {
+                await loadAppointmentsData(userId, false);
+            } else if (section === 'history') {
+                if (!dataLoaded.appointments) {
+                    await loadAppointmentsData(userId, false);
+                }
+            } else if (section === 'notifications') {
+                await loadNotificationsData(userId);
+            }
+        }
+    }
+}
+
+function handleMobileMenuToggle() {
+    if (navLinks) {
+        navLinks.classList.toggle('active');
+    }
+}
+
+function handleShowAddVehicleModal() {
+    if (addVehicleModal) {
+        addVehicleModal.classList.add('active');
+        if (addVehicleForm) addVehicleForm.reset();
+    }
+}
+
+function handleCloseAddVehicleModal() {
+    if (addVehicleModal) {
+        addVehicleModal.classList.remove('active');
+    }
+}
+
+function handleShowBookServiceModal() {
+    if (bookServiceModal) {
+        bookServiceModal.classList.add('active');
+        if (bookServiceForm) bookServiceForm.reset();
+        
+        // Pre-select today's date
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const formattedDate = `${yyyy}-${mm}-${dd}`;
+        
+        const dateInput = document.getElementById('serviceDate');
+        if (dateInput) dateInput.value = formattedDate;
+    }
+}
+
+function handleCloseBookServiceModal() {
+    if (bookServiceModal) {
+        bookServiceModal.classList.remove('active');
+    }
+}
+
+async function handleSaveVehicle() {
+    if (!currentUser || !addVehicleForm) return;
+    
+    const make = document.getElementById('vehicleMake')?.value;
+    const model = document.getElementById('vehicleModel')?.value;
+    const year = document.getElementById('vehicleYear')?.value;
+    const license = document.getElementById('vehicleLicense')?.value;
+    const type = document.getElementById('vehicleType')?.value;
+    const color = document.getElementById('vehicleColor')?.value;
+    const mileage = document.getElementById('vehicleMileage')?.value;
+    
+    if (!make || !model || !year || !license || !type || !color) {
+        showNotification('Please fill in all required fields.', 'error');
+        return;
+    }
+    
+    showLoading(true);
+    
+    try {
+        const vehicleData = {
+            make,
+            model,
+            year: parseInt(year),
+            license,
+            type,
+            color,
+            mileage: mileage ? parseInt(mileage) : 0,
+            ownerId: currentUser.uid,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        const docRef = await db.collection('vehicles').add(vehicleData);
+        console.log('Vehicle added with ID:', docRef.id);
+        
+        showNotification('Vehicle added successfully!', 'success');
+        handleCloseAddVehicleModal();
+        
+        // Reload vehicles data
+        await loadVehiclesData(currentUser.uid);
+        
+        // If on vehicles section, update UI
+        if (currentSection === 'vehicles' && vehiclesContainer) {
+            const vehicle = {
+                id: docRef.id,
+                ...vehicleData
+            };
+            vehiclesContainer.appendChild(createVehicleCard(vehicle));
             
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const profileImage = document.getElementById('profileImage').files[0];
+            if (noVehiclesMessage) {
+                noVehiclesMessage.style.display = 'none';
+            }
+        }
+        
+        // Update registered vehicles count
+        if (registeredVehiclesCount) {
+            const currentCount = parseInt(registeredVehiclesCount.textContent || '0');
+            registeredVehiclesCount.textContent = currentCount + 1;
+        }
+    } catch (error) {
+        console.error('Error adding vehicle:', error);
+        showNotification('Error adding vehicle. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+async function handleBookService() {
+    if (!currentUser || !bookServiceForm) return;
+    
+    const vehicleId = document.getElementById('serviceVehicle')?.value;
+    const serviceType = document.getElementById('serviceType')?.value;
+    const providerId = document.getElementById('serviceProvider')?.value;
+    const dateStr = document.getElementById('serviceDate')?.value;
+    const timeStr = document.getElementById('serviceTime')?.value;
+    const notes = document.getElementById('serviceNotes')?.value;
+    
+    if (!vehicleId || !serviceType || !providerId || !dateStr || !timeStr) {
+        showNotification('Please fill in all required fields.', 'error');
+        return;
+    }
+    
+    showLoading(true);
+    
+    try {
+        // Get provider details
+        const providerSnapshot = await db.collection('providers').doc(providerId).get();
+        const providerName = providerSnapshot.exists ? providerSnapshot.data().name : 'Unknown Provider';
+        
+        // Parse date and time
+        const [year, month, day] = dateStr.split('-').map(Number);
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        const dateObj = new Date(year, month - 1, day, hours, minutes);
+        
+        const appointmentData = {
+            clientId: currentUser.uid,
+            vehicleId,
+            serviceType,
+            providerId,
+            providerName,
+            date: firebase.firestore.Timestamp.fromDate(dateObj),
+            notes: notes || '',
+            status: 'scheduled',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        const docRef = await db.collection('appointments').add(appointmentData);
+        console.log('Appointment added with ID:', docRef.id);
+        
+        showNotification('Service appointment booked successfully!', 'success');
+        handleCloseBookServiceModal();
+        
+        // Add notification for appointment booking
+        await db.collection('notifications').add({
+            userId: currentUser.uid,
+            type: 'appointment',
+            title: 'Appointment Confirmation',
+            message: `Your ${serviceType.split('_').join(' ')} appointment has been scheduled for ${formatDate(dateObj)} at ${formatTime(dateObj)}.`,
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Reload appointments data
+        await loadAppointmentsData(currentUser.uid, currentSection === 'dashboard');
+    } catch (error) {
+        console.error('Error booking service:', error);
+        showNotification('Error booking service. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Event handler for canceling an appointment
+async function handleCancelAppointment(appointmentId) {
+    if (!currentUser || !appointmentId) return;
+    
+    if (!confirm('Are you sure you want to cancel this appointment?')) {
+        return;
+    }
+    
+    showLoading(true);
+    
+    try {
+        await db.collection('appointments').doc(appointmentId).update({
+            status: 'cancelled',
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        showNotification('Appointment cancelled successfully.', 'success');
+        
+        // Reload appointments data
+        await loadAppointmentsData(currentUser.uid, currentSection === 'dashboard');
+    } catch (error) {
+        console.error('Error cancelling appointment:', error);
+        showNotification('Error cancelling appointment. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Event handler for editing a vehicle
+async function handleEditVehicle(vehicleId) {
+    if (!currentUser || !vehicleId) return;
+    
+    showLoading(true);
+    
+    try {
+        const vehicleDoc = await db.collection('vehicles').doc(vehicleId).get();
+        
+        if (!vehicleDoc.exists) {
+            showNotification('Vehicle not found.', 'error');
+            return;
+        }
+        
+        const vehicleData = vehicleDoc.data();
+        
+        // Pre-fill form
+        document.getElementById('vehicleMake').value = vehicleData.make || '';
+        document.getElementById('vehicleModel').value = vehicleData.model || '';
+        document.getElementById('vehicleYear').value = vehicleData.year || '';
+        document.getElementById('vehicleLicense').value = vehicleData.license || '';
+        document.getElementById('vehicleType').value = vehicleData.type || '';
+        document.getElementById('vehicleColor').value = vehicleData.color || '';
+        document.getElementById('vehicleMileage').value = vehicleData.mileage || '';
+        
+        // Show modal
+        handleShowAddVehicleModal();
+        
+        // Change the save function to update instead of add
+        const saveBtn = document.getElementById('saveVehicle');
+        if (saveBtn) {
+            saveBtn.textContent = 'Update Vehicle';
             
-            if (!firstName || !lastName || !email) {
-                showNotification('Please fill in all required fields', 'error');
+            // Remove existing event listeners (a bit hacky but works)
+            const newSaveBtn = saveBtn.cloneNode(true);
+            saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+            
+            // Add new event listener for update
+            newSaveBtn.addEventListener('click', async () => {
+                const make = document.getElementById('vehicleMake')?.value;
+                const model = document.getElementById('vehicleModel')?.value;
+                const year = document.getElementById('vehicleYear')?.value;
+                const license = document.getElementById('vehicleLicense')?.value;
+                const type = document.getElementById('vehicleType')?.value;
+                const color = document.getElementById('vehicleColor')?.value;
+                const mileage = document.getElementById('vehicleMileage')?.value;
+                
+                if (!make || !model || !year || !license || !type || !color) {
+                    showNotification('Please fill in all required fields.', 'error');
+                    return;
+                }
+                
+                showLoading(true);
+                
+                try {
+                    await db.collection('vehicles').doc(vehicleId).update({
+                        make,
+                        model,
+                        year: parseInt(year),
+                        license,
+                        type,
+                        color,
+                        mileage: mileage ? parseInt(mileage) : 0,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    showNotification('Vehicle updated successfully!', 'success');
+                    handleCloseAddVehicleModal();
+                    
+                    // Reload vehicles data
+                    await loadVehiclesData(currentUser.uid);
+                } catch (error) {
+                    console.error('Error updating vehicle:', error);
+                    showNotification('Error updating vehicle. Please try again.', 'error');
+                }
+                
+                showLoading(false);
+                
+                // Reset save button text and event listener
+                newSaveBtn.textContent = 'Save Vehicle';
+                newSaveBtn.addEventListener('click', handleSaveVehicle);
+            });
+        }
+    } catch (error) {
+        console.error('Error getting vehicle details:', error);
+        showNotification('Error getting vehicle details. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Event handler for deleting a vehicle
+async function handleDeleteVehicle(vehicleId) {
+    if (!currentUser || !vehicleId) return;
+    
+    if (!confirm('Are you sure you want to delete this vehicle? This action cannot be undone.')) {
+        return;
+    }
+    
+    showLoading(true);
+    
+    try {
+        // First check if vehicle has any associated appointments
+        const appointmentsSnapshot = await db.collection('appointments')
+            .where('vehicleId', '==', vehicleId)
+            .where('status', 'in', ['scheduled', 'confirmed'])
+            .get();
+        
+        if (!appointmentsSnapshot.empty) {
+            if (!confirm('This vehicle has upcoming appointments. Deleting it will also cancel these appointments. Continue?')) {
+                showLoading(false);
                 return;
             }
             
-            showLoading(true);
-            
-            try {
-                const promises = [];
-                
-                if (email !== user.email) {
-                    promises.push(user.updateEmail(email));
-                }
-                
-                const userData = {
-                    firstName,
-                    lastName,
-                    email,
-                    phone: phone || null,
+            // Cancel associated appointments
+            const batch = db.batch();
+            appointmentsSnapshot.forEach(doc => {
+                batch.update(doc.ref, {
+                    status: 'cancelled',
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
+                });
+            });
+            await batch.commit();
+        }
+        
+        // Now delete the vehicle
+        await db.collection('vehicles').doc(vehicleId).delete();
+        
+        showNotification('Vehicle deleted successfully.', 'success');
+        
+        // Reload vehicles data
+        await loadVehiclesData(currentUser.uid);
+        
+        // Update registered vehicles count
+        if (registeredVehiclesCount) {
+            const currentCount = parseInt(registeredVehiclesCount.textContent || '0');
+            registeredVehiclesCount.textContent = Math.max(0, currentCount - 1);
+        }
+    } catch (error) {
+        console.error('Error deleting vehicle:', error);
+        showNotification('Error deleting vehicle. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Event handler for viewing vehicle history
+function handleViewVehicleHistory(vehicleId) {
+    if (!vehicleId) return;
+    
+    // Switch to history section
+    handleSwitchSection('history');
+    
+    // Scroll to relevant history items (if implemented)
+    setTimeout(() => {
+        const historyItems = document.querySelectorAll(`#serviceHistoryContainer .service-history-item[data-vehicle-id="${vehicleId}"]`);
+        if (historyItems.length > 0) {
+            historyItems[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            historyItems.forEach(item => {
+                item.classList.add('highlight');
+                setTimeout(() => item.classList.remove('highlight'), 2000);
+            });
+        }
+    }, 500);
+}
+
+// Event handler for booking service for a specific vehicle
+function handleBookServiceForVehicle(vehicleId) {
+    if (!vehicleId || !serviceVehicleSelect) return;
+    
+    handleShowBookServiceModal();
+    
+    // Pre-select the vehicle
+    serviceVehicleSelect.value = vehicleId;
+}
+
+// Event handler for viewing appointment details
+async function handleViewAppointmentDetails(appointmentId) {
+    if (!appointmentId) return;
+    
+    showLoading(true);
+    
+    try {
+        const appointmentDoc = await db.collection('appointments').doc(appointmentId).get();
+        
+        if (!appointmentDoc.exists) {
+            showNotification('Appointment not found.', 'error');
+            return;
+        }
+        
+        const appointment = appointmentDoc.data();
+        
+        // Implementation dependent on your UI design for displaying details
+        // For now, just log to console
+        console.log('Appointment details:', appointment);
+        
+        // TODO: Implement a modal or details view
+        alert(`Appointment Details:\n\nService: ${appointment.serviceType.split('_').join(' ')}\nStatus: ${appointment.status}\nDate: ${formatDate(appointment.date?.toDate())}\nTime: ${formatTime(appointment.date?.toDate())}\nProvider: ${appointment.providerName || 'Unknown'}\nNotes: ${appointment.notes || 'None'}`);
+    } catch (error) {
+        console.error('Error getting appointment details:', error);
+        showNotification('Error getting appointment details. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Event handler for viewing service details
+async function handleViewServiceDetails(serviceId) {
+    // Similar to handleViewAppointmentDetails but for completed services
+    await handleViewAppointmentDetails(serviceId);
+}
+
+// Event handler for rescheduling an appointment
+async function handleRescheduleAppointment(appointmentId) {
+    if (!appointmentId) return;
+    
+    // This would typically show a date/time selection modal
+    // For simplicity, we'll reuse the book service modal but pre-fill it
+    
+    showLoading(true);
+    
+    try {
+        const appointmentDoc = await db.collection('appointments').doc(appointmentId).get();
+        
+        if (!appointmentDoc.exists) {
+            showNotification('Appointment not found.', 'error');
+            return;
+        }
+        
+        const appointment = appointmentDoc.data();
+        const appointmentDate = appointment.date?.toDate();
+        
+        handleShowBookServiceModal();
+        
+        // Pre-fill form
+        if (document.getElementById('serviceVehicle')) {
+            document.getElementById('serviceVehicle').value = appointment.vehicleId || '';
+        }
+        
+        if (document.getElementById('serviceType')) {
+            document.getElementById('serviceType').value = appointment.serviceType || '';
+        }
+        
+        if (document.getElementById('serviceProvider')) {
+            document.getElementById('serviceProvider').value = appointment.providerId || '';
+        }
+        
+        if (document.getElementById('serviceNotes')) {
+            document.getElementById('serviceNotes').value = appointment.notes || '';
+        }
+        
+        if (appointmentDate && document.getElementById('serviceDate')) {
+            const yyyy = appointmentDate.getFullYear();
+            const mm = String(appointmentDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(appointmentDate.getDate()).padStart(2, '0');
+            document.getElementById('serviceDate').value = `${yyyy}-${mm}-${dd}`;
+        }
+        
+        if (appointmentDate && document.getElementById('serviceTime')) {
+            const hours = String(appointmentDate.getHours()).padStart(2, '0');
+            const minutes = String(appointmentDate.getMinutes()).padStart(2, '0');
+            document.getElementById('serviceTime').value = `${hours}:${minutes}`;
+        }
+        
+        // Change the button text and handler
+        const bookBtn = document.getElementById('confirmBookService');
+        if (bookBtn) {
+            bookBtn.textContent = 'Reschedule Appointment';
+            
+            // Remove existing event listeners
+            const newBookBtn = bookBtn.cloneNode(true);
+            bookBtn.parentNode.replaceChild(newBookBtn, bookBtn);
+            
+            // Add new event listener for rescheduling
+            newBookBtn.addEventListener('click', async () => {
+                const vehicleId = document.getElementById('serviceVehicle')?.value;
+                const serviceType = document.getElementById('serviceType')?.value;
+                const providerId = document.getElementById('serviceProvider')?.value;
+                const dateStr = document.getElementById('serviceDate')?.value;
+                const timeStr = document.getElementById('serviceTime')?.value;
+                const notes = document.getElementById('serviceNotes')?.value;
                 
-                promises.push(db.collection('users').doc(user.uid).set(userData, { merge: true }));
-                
-                if (profileImage) {
-                    const storageRef = storage.ref(`users/${user.uid}/profile.jpg`);
-                    const uploadTask = await storageRef.put(profileImage);
-                    const url = await uploadTask.ref.getDownloadURL();
-                    promises.push(db.collection('users').doc(user.uid).update({ profileImage: url }));
+                if (!vehicleId || !serviceType || !providerId || !dateStr || !timeStr) {
+                    showNotification('Please fill in all required fields.', 'error');
+                    return;
                 }
                 
-                await Promise.all(promises);
-                showNotification('Profile updated successfully', 'success');
-                userName.textContent = `${firstName} ${lastName}`;
-                userEmail.textContent = email;
+                showLoading(true);
                 
-                if (profileImage) {
-                    userAvatar.src = URL.createObjectURL(profileImage);
+                try {
+                    // Parse date and time
+                    const [year, month, day] = dateStr.split('-').map(Number);
+                    const [hours, minutes] = timeStr.split(':').map(Number);
+                    const dateObj = new Date(year, month - 1, day, hours, minutes);
+                    
+                    await db.collection('appointments').doc(appointmentId).update({
+                        date: firebase.firestore.Timestamp.fromDate(dateObj),
+                        notes: notes || '',
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    showNotification('Appointment rescheduled successfully!', 'success');
+                    handleCloseBookServiceModal();
+                    
+                    // Add notification for rescheduling
+                    await db.collection('notifications').add({
+                        userId: currentUser.uid,
+                        type: 'appointment',
+                        title: 'Appointment Rescheduled',
+                        message: `Your ${serviceType.split('_').join(' ')} appointment has been rescheduled for ${formatDate(dateObj)} at ${formatTime(dateObj)}.`,
+                        read: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    // Reload appointments data
+                    await loadAppointmentsData(currentUser.uid, currentSection === 'dashboard');
+                } catch (error) {
+                    console.error('Error rescheduling appointment:', error);
+                    showNotification('Error rescheduling appointment. Please try again.', 'error');
                 }
-            } catch (error) {
-                console.error('Error updating profile:', error);
-                showNotification('Error updating profile', 'error');
-            }
-            showLoading(false);
+                
+                showLoading(false);
+                
+                // Reset button text and event listener
+                newBookBtn.textContent = 'Book Service';
+                newBookBtn.addEventListener('click', handleBookService);
+            });
+        }
+    } catch (error) {
+        console.error('Error getting appointment for rescheduling:', error);
+        showNotification('Error retrieving appointment details. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Event handler for marking a notification as read
+async function handleMarkNotificationAsRead(notificationId) {
+    if (!currentUser || !notificationId) return;
+    
+    showLoading(true);
+    
+    try {
+        await db.collection('notifications').doc(notificationId).update({
+            read: true,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         
-        // Change password
-        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Update UI
+        const notificationItem = document.querySelector(`.notification-item[data-id="${notificationId}"]`);
+        if (notificationItem) {
+            notificationItem.classList.remove('unread');
+            notificationItem.classList.add('read');
             
-            const user = auth.currentUser;
-            if (!user) return;
+            const markReadBtn = notificationItem.querySelector('.mark-read-btn');
+            if (markReadBtn) {
+                markReadBtn.remove();
+            }
+        }
+    } catch (error) {
+        console.error('Error marking notification as read:', error);
+        showNotification('Error updating notification. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Event handler for marking all notifications as read
+async function handleMarkAllNotificationsAsRead() {
+    if (!currentUser) return;
+    
+    showLoading(true);
+    
+    try {
+        // Get all unread notifications
+        const unreadSnapshot = await db.collection('notifications')
+            .where('userId', '==', currentUser.uid)
+            .where('read', '==', false)
+            .get();
+        
+        if (unreadSnapshot.empty) {
+            showNotification('No unread notifications.', 'info');
+            showLoading(false);
+            return;
+        }
+        
+        // Update all notifications in a batch
+        const batch = db.batch();
+        unreadSnapshot.forEach(doc => {
+            batch.update(doc.ref, {
+                read: true,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        });
+        
+        await batch.commit();
+        
+        showNotification('All notifications marked as read.', 'success');
+        
+        // Update UI
+        const unreadItems = document.querySelectorAll('.notification-item.unread');
+        unreadItems.forEach(item => {
+            item.classList.remove('unread');
+            item.classList.add('read');
             
+            const markReadBtn = item.querySelector('.mark-read-btn');
+            if (markReadBtn) {
+                markReadBtn.remove();
+            }
+        });
+    } catch (error) {
+        console.error('Error marking all notifications as read:', error);
+        showNotification('Error updating notifications. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Event handler for deleting a notification
+async function handleDeleteNotification(notificationId) {
+    if (!currentUser || !notificationId) return;
+    
+    showLoading(true);
+    
+    try {
+        await db.collection('notifications').doc(notificationId).delete();
+        
+        // Update UI
+        const notificationItem = document.querySelector(`.notification-item[data-id="${notificationId}"]`);
+        if (notificationItem) {
+            notificationItem.remove();
+        }
+        
+        // Check if there are any notifications left
+        const remainingItems = document.querySelectorAll('.notification-item');
+        if (remainingItems.length === 0 && noNotificationsMessage) {
+            noNotificationsMessage.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error deleting notification:', error);
+        showNotification('Error deleting notification. Please try again.', 'error');
+    }
+    
+    showLoading(false);
+}
+
+// Demo Data Seeding
+async function seedDemoProviders() {
+    try {
+        // Check if providers already exist
+        const existingProviders = await db.collection('providers').limit(1).get();
+        if (!existingProviders.empty) {
+            console.log('Providers already exist, skipping seed');
+            return;
+        }
+        
+        const demoProviders = [
+            {
+                name: 'Quick Auto Service',
+                specialty: 'Fast Oil Changes & Basic Maintenance',
+                description: 'Specializing in quick oil changes and basic maintenance services with no appointment needed.',
+                rating: 4.2,
+                location: '123 Main St, Anytown',
+                phone: '(555) 123-4567',
+                email: 'service@quickauto.com',
+                website: 'https://quickauto.com',
+                services: ['oil_change', 'tire_rotation', 'battery_check', 'air_filter'],
+                image: '/api/placeholder/300/300'
+            },
+            {
+                name: 'Elite Auto Repairs',
+                specialty: 'Advanced Diagnostics & Repairs',
+                description: 'Professional auto repair shop with certified mechanics specializing in complex diagnostics and repairs.',
+                rating: 4.8,
+                location: '456 Oak Ave, Anytown',
+                phone: '(555) 234-5678',
+                email: 'service@eliteauto.com',
+                website: 'https://eliteauto.com',
+                services: ['engine_diagnostic', 'brake_service', 'transmission_service', 'coolant_flush'],
+                image: '/api/placeholder/300/300'
+            },
+            {
+                name: 'Premium Car Care',
+                specialty: 'Luxury Vehicle Specialists',
+                description: 'Premium service center specializing in luxury and high-performance vehicles with state-of-the-art equipment.',
+                rating: 4.9,
+                location: '789 Maple Rd, Anytown',
+                phone: '(555) 345-6789',
+                email: 'service@premiumcar.com',
+                website: 'https://premiumcar.com',
+services: ['full_service', 'diagnostics', 'performance_tuning'],
+image: '/api/placeholder/300/300'
+},
+{
+name: 'AutoTech Experts',
+specialty: 'Comprehensive Auto Repairs',
+description: 'Full-service auto repair shop offering a wide range of services from routine maintenance to major repairs.',
+rating: 4.5,
+location: '321 Pine St, Anytown',
+phone: '(555) 456-7890',
+email: 'info@autotech.com',
+website: 'https://autotech.com',
+services: ['oil_change', 'brake_service', 'engine_diagnostic', 'transmission_service'],
+image: '/api/placeholder/300/300'
+}
+];
+
+    // Add providers to Firestore
+    const batch = db.batch();
+    demoProviders.forEach(provider => {
+        const docRef = db.collection('providers').doc();
+        batch.set(docRef, provider);
+    });
+
+    await batch.commit();
+    console.log('Demo providers added successfully');
+} catch (error) {
+    console.error('Error seeding demo providers:', error);
+    throw error;
+}
+}
+
+async function seedDemoNotifications(userId) {
+try {
+const notifications = [
+{
+type: 'system',
+title: 'Welcome to Autoflex!',
+message: 'Thank you for joining Autoflex. Get started by adding your first vehicle.',
+read: false,
+createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+},
+{
+type: 'promotion',
+title: 'First Service Discount',
+message: 'Enjoy 20% off your first service appointment! Use code: AUTOFLEX20',
+read: false,
+createdAt: firebase.firestore.Timestamp.fromDate(new Date(Date.now() - 3600000))
+}
+];
+
+    const batch = db.batch();
+    notifications.forEach(notification => {
+        const docRef = db.collection('notifications').doc();
+        batch.set(docRef, {...notification, userId});
+    });
+
+    await batch.commit();
+    console.log('Demo notifications added');
+} catch (error) {
+    console.error('Error seeding notifications:', error);
+}
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+// Initialize authentication
+initializeAuth();
+
+// Mobile menu toggle
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', handleMobileMenuToggle);
+}
+
+// Navigation menu click handlers
+navMenuLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = link.dataset.section;
+        handleSwitchSection(section);
+    });
+});
+
+// View all links
+viewAllLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = link.dataset.section;
+        handleSwitchSection(section);
+    });
+});
+
+// Vehicle modals
+if (addVehicleBtn) addVehicleBtn.addEventListener('click', handleShowAddVehicleModal);
+if (addVehicleBtn2) addVehicleBtn2.addEventListener('click', handleShowAddVehicleModal);
+if (closeAddVehicleModal) closeAddVehicleModal.addEventListener('click', handleCloseAddVehicleModal);
+if (cancelAddVehicle) cancelAddVehicle.addEventListener('click', handleCloseAddVehicleModal);
+if (saveVehicle) saveVehicle.addEventListener('click', handleSaveVehicle);
+
+// Service modals
+if (bookServiceBtn) bookServiceBtn.addEventListener('click', handleShowBookServiceModal);
+if (bookServiceBtn2) bookServiceBtn2.addEventListener('click', handleShowBookServiceModal);
+if (closeBookServiceModal) closeBookServiceModal.addEventListener('click', handleCloseBookServiceModal);
+if (cancelBookService) cancelBookService.addEventListener('click', handleCloseBookServiceModal);
+if (confirmBookService) confirmBookService.addEventListener('click', handleBookService);
+
+// Notifications
+if (markAllAsReadBtn) markAllAsReadBtn.addEventListener('click', handleMarkAllNotificationsAsRead);
+
+// Settings form handlers
+const profileForm = document.getElementById('profileForm');
+if (profileForm) {
+    profileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        showLoading(true);
+        
+        try {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
+            const file = document.getElementById('profileImage').files[0];
+            
+            // Update Firestore user document
+            await db.collection('users').doc(currentUser.uid).update({
+                firstName,
+                lastName,
+                phone,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            // Upload profile image if selected
+            if (file) {
+                const storageRef = storage.ref(`users/${currentUser.uid}/profile.jpg`);
+                await storageRef.put(file);
+                const downloadURL = await storageRef.getDownloadURL();
+                
+                // Update user profile image
+                await currentUser.updateProfile({ photoURL: downloadURL });
+                await db.collection('users').doc(currentUser.uid).update({
+                    profileImage: downloadURL
+                });
+                
+                if (userAvatar) userAvatar.src = downloadURL;
+            }
+
+            // Update UI
+            if (userName) userName.textContent = `${firstName} ${lastName}`;
+            showNotification('Profile updated successfully!', 'success');
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            showNotification('Error updating profile. Please try again.', 'error');
+        }
+        
+        showLoading(false);
+    });
+}
+
+const passwordForm = document.getElementById('passwordForm');
+if (passwordForm) {
+    passwordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        showLoading(true);
+        
+        try {
             const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                showNotification('Please fill in all password fields', 'error');
-                return;
-            }
-            
+
+            // Validate passwords
             if (newPassword !== confirmPassword) {
-                showNotification('New passwords do not match', 'error');
+                showNotification('New passwords do not match.', 'error');
                 return;
             }
-            
-            if (newPassword.length < 6) {
-                showNotification('Password must be at least 6 characters', 'error');
-                return;
-            }
-            
-            showLoading(true);
-            
-            try {
-                const credential = firebase.auth.EmailAuthProvider.credential(
-                    user.email,
-                    currentPassword
-                );
-                
-                await user.reauthenticateWithCredential(credential);
-                await user.updatePassword(newPassword);
-                showNotification('Password changed successfully', 'success');
-                document.getElementById('passwordForm').reset();
-            } catch (error) {
-                console.error('Error changing password:', error);
-                if (error.code === 'auth/wrong-password') {
-                    showNotification('Current password is incorrect', 'error');
-                } else {
-                    showNotification('Error changing password', 'error');
-                }
-            }
-            showLoading(false);
-        });
+
+            // Reauthenticate user
+            const credential = firebase.auth.EmailAuthProvider.credential(
+                currentUser.email,
+                currentPassword
+            );
+            await currentUser.reauthenticateWithCredential(credential);
+
+            // Update password
+            await currentUser.updatePassword(newPassword);
+            showNotification('Password updated successfully!', 'success');
+            passwordForm.reset();
+        } catch (error) {
+            console.error('Error updating password:', error);
+            showNotification(error.message || 'Error updating password. Please try again.', 'error');
+        }
         
-        document.getElementById('cancelProfileChanges').addEventListener('click', () => {
-            loadProfileSettings();
-        });
-        
-        // Close modals when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === addVehicleModal) hideAddVehicleModal();
-            if (e.target === bookServiceModal) hideBookServiceModal();
-        });
-        
-        // Modal Event Listeners
-        addVehicleBtn.addEventListener('click', showAddVehicleModal);
-        addVehicleBtn2.addEventListener('click', showAddVehicleModal);
-        closeAddVehicleModal.addEventListener('click', hideAddVehicleModal);
-        cancelAddVehicle.addEventListener('click', hideAddVehicleModal);
-        
-        bookServiceBtn.addEventListener('click', showBookServiceModal);
-        bookServiceBtn2.addEventListener('click', showBookServiceModal);
-        closeBookServiceModal.addEventListener('click', hideBookServiceModal);
-        cancelBookService.addEventListener('click', hideBookServiceModal);
-        
-        // Initialize
-        auth.onAuthStateChanged(handleAuthState);
-    </script>
+        showLoading(false);
+    });
+}
+});
+
+// Service worker registration
+if ('serviceWorker' in navigator) {
+window.addEventListener('load', () => {
+navigator.serviceWorker.register('/service-worker.js')
+.then(registration => {
+console.log('ServiceWorker registration successful');
+})
+.catch(err => {
+console.log('ServiceWorker registration failed: ', err);
+});
+});
+}
+
+</script>
 </body>
-</html>
+</html> 

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoflex - Contact Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="autoflex.html" class="logo">Autoflex</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="autoflex.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="providers.html" class="nav-link">Providers</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+            </ul>
+            <a href="login.html" class="login-btn">Login / Sign Up</a>
+        </div>
+    </header>
+
+    <!-- Contact Header -->
+    <section class="contact-header">
+        <div class="container">
+            <h1 class="animate">Get in Touch With Us</h1>
+            <p class="animate delay-1">We're here to help. Contact our team with any questions about our services or how we can assist you.</p>
+        </div>
+        <div class="wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section class="contact-info-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-card animate">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 class="contact-title">Our Location</h3>
+                    <div class="contact-details">
+                        123 Main Street<br>
+                        New York, NY 10001<br>
+                        United States
+                    </div>
+                </div>
+                <div class="contact-card animate delay-1">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3 class="contact-title">Call Us</h3>
+                    <div class="contact-details">
+                        <a href="tel:+15551234567">+1 (555) 123-4567</a><br>
+                        <span>Monday-Friday: 8am-6pm</span><br>
+                        <span>Weekend: 10am-4pm</span>
+                    </div>
+                </div>
+                <div class="contact-card animate delay-2">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="contact-title">Email Us</h3>
+                    <div class="contact-details">
+                        <a href="mailto:support@autoflex.com">support@autoflex.com</a><br>
+                        <a href="mailto:info@autoflex.com">info@autoflex.com</a><br>
+                        <span>We reply within 24 hours</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="contact-container">
+                <div class="company-info animate">
+                    <h2>About Autoflex</h2>
+                    <p>Autoflex is the leading platform connecting car owners with top-quality auto service providers across the country. Founded in 2020, we've helped thousands of customers find reliable, affordable auto services.</p>
+                    <p>Our mission is to simplify the process of finding and booking auto services, making car maintenance and care easier for everyone. We carefully vet all service providers to ensure they meet our high standards of quality and customer service.</p>
+                    <p>We're proud to be revolutionizing how people approach auto care, combining technology with exceptional customer service to create the best experience possible.</p>
+                    
+                    <h3 style="margin-top: 30px; margin-bottom: 15px;">Follow Us</h3>
+                    <p>Stay connected with us on social media for updates, promotions, and helpful auto tips!</p>
+                    
+                    <div class="social-links-large">
+                        <a href="https://www.facebook.com/autoflex" class="social-link-large facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/autoflex" class="social-link-large instagram">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.twitter.com/autoflex" class="social-link-large twitter">
+                            <i class="fab fa-twitter"></i>
+                            <span>Twitter</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-form animate delay-1">
+                    <h2>Send Us a Message</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 class="animate">Find Us</h2>
+            <div class="map-container animate delay-1">
+                <div class="map-placeholder">
+                    <!-- Map would be integrated here with actual API -->
+                    <!-- Using placeholder for demonstration -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="animate">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item animate">
+                    <div class="faq-question">
+                        How can I become a service provider on Autoflex?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To become a service provider on Autoflex, click on "Register Your Business" on our homepage. You'll need to complete our application form, provide business documentation, and pass our quality verification process. Our team will contact you within 2-3 business days to complete the onboarding process.</p>
+                    </div>
+                </div>
+                <div class="faq-item animate delay-1">
+                    <div class="faq-question">
+                        How do I schedule an appointment with a service provider?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can schedule an appointment by first searching for your desired service and location on our homepage. Browse the available providers, select one that fits your needs, and click "Book Appointment." Choose your preferred date and time, confirm your selection, and you're all set! You'll receive a confirmation email with all the details.</p>
+                    </div>
+                </div>
+                <div class="faq-item animate delay-2">
+                    <div class="faq-question">
+                        What payment methods do you accept?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Autoflex accepts all major credit cards (Visa, MasterCard, American Express, Discover), PayPal, and Apple Pay. Your payment is secure and processed only after the service has been completed to your satisfaction. Some service providers may also accept cash payments directly.</p>
+                    </div>
+                </div>
+                <div class="faq-item animate delay-3">
+                    <div class="faq-question">
+                        Can I cancel or reschedule my appointment?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can cancel or reschedule your appointment through your Autoflex account. Go to "My Appointments" and select the appointment you wish to modify. You can cancel for free up to 24 hours before your scheduled time. Late cancellations may incur a fee depending on the provider's policy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-content animate">
+                <h2>Subscribe to Our Newsletter</h2>
+                <p>Stay updated with the latest news, promotions, and car maintenance tips. Join our community today!</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Autoflex</h3>
+                    <p>Autoflex connects car owners with top-rated auto service providers. Find, book, and pay for auto services all in one place.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="providers.html">Providers</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Popular Services</h3>
+                    <ul>
+<!-- Continuing from where the file was cut off -->
+<li><a href="#">Oil Change</a></li>
+<li><a href="#">Car Wash</a></li>
+<li><a href="#">Car Detailing</a></li>
+<li><a href="#">Brake Repair</a></li>
+<li><a href="#">Tire Services</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h3>Contact Info</h3>
+<ul>
+<li><i class="fas fa-map-marker-alt"></i> 123 Main Street, New York, NY 10001</li>
+<li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+<li><i class="fas fa-envelope"></i> info@autoflex.com</li>
+<li><i class="fas fa-clock"></i> Mon-Fri: 8am-6pm, Weekend: 10am-4pm</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2025 Autoflex. All rights reserved.</p>
+</div>
+</div>
+</footer>
+
+<!-- JavaScript -->
+<script src="contact.js"></script>   
+</body>
+</html>

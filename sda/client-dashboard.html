@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoflex - Client Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="client-dashboard.css">
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="autoflex.html" class="logo">Autoflex</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="autoflex.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="providers.html" class="nav-link">Providers</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <button id="logoutBtn" class="login-btn">Logout</button>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard">
+        <div class="container">
+            <div class="dashboard-container">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <img id="userAvatar" src="https://via.placeholder.com/70" alt="User Avatar">
+                        </div>
+                        <div class="user-details">
+                            <h3 id="userName">Loading...</h3>
+                            <p id="userEmail">Loading...</p>
+                        </div>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="#" data-section="appointments"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
+                        <li><a href="#" data-section="vehicles"><i class="fas fa-car"></i> My Vehicles</a></li>
+                        <li><a href="#" data-section="history"><i class="fas fa-history"></i> Service History</a></li>
+                        <li><a href="#" data-section="notifications"><i class="fas fa-bell"></i> Notifications</a></li>
+                        <li><a href="#" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Dashboard Section -->
+                    <div id="dashboardSection" class="content-section active-section">
+                        <div class="dashboard-header">
+                            <h1 class="dashboard-title">Dashboard</h1>
+                            <div class="dashboard-actions">
+                                <button id="addVehicleBtn"><i class="fas fa-plus"></i> Add Vehicle</button>
+                                <button id="bookServiceBtn"><i class="fas fa-calendar-plus"></i> Book Service</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Stats -->
+                        <div class="stats-container">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <h4>Upcoming Appointments</h4>
+                                    <p id="upcomingAppointmentsCount">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-car"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <h4>Registered Vehicles</h4>
+                                    <p id="registeredVehiclesCount">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <h4>Completed Services</h4>
+                                    <p id="completedServicesCount">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Appointments -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Upcoming Appointments</h2>
+                                <a href="#" class="view-all" data-section="appointments">View All</a>
+                            </div>
+                            <div id="appointmentsContainer">
+                                <p id="noAppointmentsMessage" style="display: none;">No upcoming appointments. Book a service to get started.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Recently Used Providers -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Recently Used Providers</h2>
+                                <a href="providers.html" class="view-all">View All</a>
+                            </div>
+                            <div class="recent-providers" id="recentProvidersContainer">
+                                <p id="noProvidersMessage" style="display: none;">No recent service providers. Explore our network to find the right provider for your needs.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vehicles Section -->
+                    <div id="vehiclesSection" class="content-section" style="display: none;">
+                        <div class="dashboard-header">
+                            <h1 class="dashboard-title">My Vehicles</h1>
+                            <div class="dashboard-actions">
+                                <button id="addVehicleBtn2"><i class="fas fa-plus"></i> Add Vehicle</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div id="vehiclesContainer">
+                                <p id="noVehiclesMessage" style="display: none;">No vehicles added yet. Add your first vehicle to get started.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Appointments Section -->
+                    <div id="appointmentsSection" class="content-section" style="display: none;">
+                        <div class="dashboard-header">
+                            <h1 class="dashboard-title">My Appointments</h1>
+                            <div class="dashboard-actions">
+                                <button id="bookServiceBtn2"><i class="fas fa-calendar-plus"></i> Book Service</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Upcoming Appointments</h2>
+                            </div>
+                            <div id="upcomingAppointmentsContainer">
+                                <p id="noUpcomingAppointmentsMessage" style="display: none;">No upcoming appointments. Book a service to get started.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Past Appointments</h2>
+                            </div>
+                            <div id="pastAppointmentsContainer">
+                                <p id="noPastAppointmentsMessage" style="display: none;">No past appointments found.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Service History Section -->
+                    <div id="historySection" class="content-section" style="display: none;">
+                        <div class="dashboard-header">
+                            <h1 class="dashboard-title">Service History</h1>
+                        </div>
+                        
+                        <div class="card">
+                            <div id="serviceHistoryContainer">
+                                <p id="noServiceHistoryMessage" style="display: none;">No service history found.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications Section -->
+                    <div id="notificationsSection" class="content-section" style="display: none;">
+                        <div class="dashboard-header">
+                            <h1 class="dashboard-title">Notifications</h1>
+                            <div class="dashboard-actions">
+                                <button id="markAllAsReadBtn"><i class="fas fa-check-double"></i> Mark All as Read</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div id="notificationsContainer">
+                                <p id="noNotificationsMessage" style="display: none;">No notifications found.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Settings Section -->
+                    <div id="settingsSection" class="content-section" style="display: none;">
+                        <div class="dashboard-header">
+                            <h1 class="dashboard-title">Settings</h1>
+                        </div>
+                        
+                        <div class="card">
+                            <h2 class="card-title">Profile Settings</h2>
+                            <form id="profileForm">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" id="firstName" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" id="lastName" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" id="email" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" id="phone" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileImage" class="form-label">Profile Image</label>
+                                    <input type="file" id="profileImage" class="form-control" accept="image/*">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="form-button secondary" id="cancelProfileChanges">Cancel</button>
+                                    <button type="submit" class="form-button">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="card">
+                            <h2 class="card-title">Change Password</h2>
+                            <form id="passwordForm">
+                                <div class="form-group">
+                                    <label for="currentPassword" class="form-label">Current Password</label>
+                                    <input type="password" id="currentPassword" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword" class="form-label">New Password</label>
+                                    <input type="password" id="newPassword" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                    <input type="password" id="confirmPassword" class="form-control" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="form-button">Change Password</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Vehicle Modal -->
+    <div class="modal-overlay" id="addVehicleModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Vehicle</h3>
+                <button class="modal-close" id="closeAddVehicleModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addVehicleForm">
+                    <div class="form-group">
+                        <label for="vehicleMake" class="form-label">Make</label>
+                        <input type="text" id="vehicleMake" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleModel" class="form-label">Model</label>
+                        <input type="text" id="vehicleModel" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleYear" class="form-label">Year</label>
+                        <input type="number" id="vehicleYear" class="form-control" min="1900" max="2099" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleLicense" class="form-label">License Plate</label>
+                        <input type="text" id="vehicleLicense" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleType" class="form-label">Vehicle Type</label>
+                        <select id="vehicleType" class="form-select" required>
+                            <option value="">Select Vehicle Type</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="suv">SUV</option>
+                            <option value="truck">Truck</option>
+                            <option value="van">Van</option>
+                            <option value="coupe">Coupe</option>
+                            <option value="hatchback">Hatchback</option>
+                            <option value="convertible">Convertible</option>
+                            <option value="electric">Electric</option>
+                            <option value="hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleColor" class="form-label">Color</label>
+                        <input type="text" id="vehicleColor" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleMileage" class="form-label">Current Mileage</label>
+                        <input type="number" id="vehicleMileage" class="form-control" min="0">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="form-button secondary" id="cancelAddVehicle">Cancel</button>
+                <button class="form-button" id="saveVehicle">Save Vehicle</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Service Modal -->
+    <div class="modal-overlay" id="bookServiceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Book a Service</h3>
+                <button class="modal-close" id="closeBookServiceModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bookServiceForm">
+                    <div class="form-group">
+                        <label for="serviceVehicle" class="form-label">Select Vehicle</label>
+                        <select id="serviceVehicle" class="form-select" required>
+                            <option value="">Select a Vehicle</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceType" class="form-label">Service Type</label>
+                        <select id="serviceType" class="form-select" required>
+                            <option value="">Select Service Type</option>
+                            <option value="oil_change">Oil Change</option>
+                            <option value="tire_rotation">Tire Rotation</option>
+                            <option value="brake_service">Brake Service</option>
+                            <option value="battery_check">Battery Check</option>
+                            <option value="engine_diagnostic">Engine Diagnostic</option>
+                            <option value="transmission_service">Transmission Service</option>
+                            <option value="coolant_flush">Coolant Flush</option>
+                            <option value="air_filter">Air Filter Replacement</option>
+                            <option value="other">Other Service</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceProvider" class="form-label">Service Provider</label>
+                        <select id="serviceProvider" class="form-select" required>
+                            <option value="">Select a Provider</option>
+                            <option value="quick_auto">Quick Auto Service</option>
+                            <option value="elite_auto">Elite Auto Repairs</option>
+                            <option value="premium_care">Premium Car Care</option>
+                            <option value="autotech">AutoTech Experts</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceDate" class="form-label">Date</label>
+                        <input type="date" id="serviceDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceTime" class="form-label">Time</label>
+                        <input type="time" id="serviceTime" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceNotes" class="form-label">Additional Notes</label>
+                        <textarea id="serviceNotes" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="form-button secondary" id="cancelBookService">Cancel</button>
+                <button class="form-button" id="confirmBookService">Book Service</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Autoflex. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-auth-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-storage-compat.js"></script>
+
+    <!-- App Script -->
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBCJXaADkSOQO9CcV2qub7Fwlu9o4OPSPc",
+            authDomain: "autoflex-83dba.firebaseapp.com",
+            projectId: "autoflex-83dba",
+            storageBucket: "autoflex-83dba.firebasestorage.app",
+            messagingSenderId: "921645337376",
+            appId: "1:921645337376:web:fbd7dfd8fb9ef056e7a545",
+            measurementId: "G-DV3KB8X20D"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        
+        // DOM Elements
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const upcomingAppointmentsCount = document.getElementById('upcomingAppointmentsCount');
+        const registeredVehiclesCount = document.getElementById('registeredVehiclesCount');
+        const completedServicesCount = document.getElementById('completedServicesCount');
+        const appointmentsContainer = document.getElementById('appointmentsContainer');
+        const noAppointmentsMessage = document.getElementById('noAppointmentsMessage');
+        const recentProvidersContainer = document.getElementById('recentProvidersContainer');
+        const noProvidersMessage = document.getElementById('noProvidersMessage');
+        const loading = document.getElementById('loading');
+        const notification = document.getElementById('notification');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const addVehicleBtn = document.getElementById('addVehicleBtn');
+        const addVehicleBtn2 = document.getElementById('addVehicleBtn2');
+        const bookServiceBtn = document.getElementById('bookServiceBtn');
+        const bookServiceBtn2 = document.getElementById('bookServiceBtn2');
+        const markAllAsReadBtn = document.getElementById('markAllAsReadBtn');
+        const addVehicleModal = document.getElementById('addVehicleModal');
+        const closeAddVehicleModal = document.getElementById('closeAddVehicleModal');
+        const cancelAddVehicle = document.getElementById('cancelAddVehicle');
+        const saveVehicle = document.getElementById('saveVehicle');
+        const addVehicleForm = document.getElementById('addVehicleForm');
+        const bookServiceModal = document.getElementById('bookServiceModal');
+        const closeBookServiceModal = document.getElementById('closeBookServiceModal');
+        const cancelBookService = document.getElementById('cancelBookService');
+        const confirmBookService = document.getElementById('confirmBookService');
+        const bookServiceForm = document.getElementById('bookServiceForm');
+        const contentSections = document.querySelectorAll('.content-section');
+        const dashboardSection = document.getElementById('dashboardSection');
+        const vehiclesSection = document.getElementById('vehiclesSection');
+        const appointmentsSection = document.getElementById('appointmentsSection');
+        const historySection = document.getElementById('historySection');
+        const notificationsSection = document.getElementById('notificationsSection');
+        const settingsSection = document.getElementById('settingsSection');
+        const navMenuLinks = document.querySelectorAll('.nav-menu a');
+        const viewAllLinks = document.querySelectorAll('.view-all');
+        
+        // Utility Functions
+        function showLoading(show) {
+            loading.classList.toggle('active', show);
+        }
+        
+        function showNotification(message, type) {
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            setTimeout(() => notification.classList.remove('show'), 3000);
+        }
+        
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+        
+        function formatTime(date) {
+            return date.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+        
+        // Authentication
+        function handleAuthState(user) {
+            if (user) {
+                loadUserData(user);
+                loadDashboardData(user.uid);
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
+
+
+        
+        // Data Loading
+        async function loadUserData(user) {
+            showLoading(true);
+            try {
+                const userRef = db.collection('users').doc(user.uid);
+                const doc = await userRef.get();
+                
+                if (!doc.exists) {
+                    await userRef.set({
+                        firstName: user.displayName?.split(' ')[0] || 'User',
+                        lastName: user.displayName?.split(' ')[1] || 'Name',
+                        email: user.email,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                const userData = (await userRef.get()).data();
+                userName.textContent = `${userData.firstName} ${userData.lastName}`;
+                userEmail.textContent = userData.email;
+                userAvatar.src = userData.profileImage || 'https://via.placeholder.com/70';
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                showNotification('Error loading user data', 'error');
+            }
+            showLoading(false);
+        }
+        
+        async function loadDashboardData(userId) {
+            showLoading(true);
+            try {
+                // Load vehicles count
+                const vehiclesSnapshot = await db.collection('vehicles')
+                    .where('ownerId', '==', userId)
+                    .get();
+                registeredVehiclesCount.textContent = vehiclesSnapshot.size;
+
+                // Load upcoming appointments
+                const appointmentsSnapshot = await db.collection('appointments')
+                    .where('clientId', '==', userId)
+                    .where('status', 'in', ['scheduled', 'confirmed'])
+                    .orderBy('date', 'asc')
+                    .limit(3)
+                    .get();
+                
+                upcomingAppointmentsCount.textContent = appointmentsSnapshot.size;
+                appointmentsContainer.innerHTML = '';
+                
+                if (appointmentsSnapshot.empty) {
+                    noAppointmentsMessage.style.display = 'block';
+                } else {
+                    noAppointmentsMessage.style.display = 'none';
+                    appointmentsSnapshot.forEach(doc => {
+                        const appointment = doc.data();
+                        const date = appointment.date.toDate();
+                        appointmentsContainer.appendChild(createAppointmentCard(appointment, date));
+                    });
+                }
+
+                // Load completed services count
+                const completedSnapshot = await db.collection('appointments')
+                    .where('clientId', '==', userId)
+                    .where('status', '==', 'completed')
+                    .get();
+                completedServicesCount.textContent = completedSnapshot.size;
+
+                // Load recent providers
+                const providersSnapshot = await db.collection('providers')
+                    .limit(4)
+                    .get();
+                
+                recentProvidersContainer.innerHTML = '';
+                
+                if (providersSnapshot.empty) {
+                    noProvidersMessage.style.display = 'block';
+                } else {
+                    noProvidersMessage.style.display = 'none';
+                    providersSnapshot.forEach(doc => {
+                        const provider = doc.data();
+                        recentProvidersContainer.appendChild(createProviderCard(provider));
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showNotification('Error loading dashboard data', 'error');
+            }
+            showLoading(false);
+        }
+        
+        function createAppointmentCard(appointment, date) {
+            const statusClasses = {
+                'scheduled': 'pending',
+                'confirmed': '',
+                'in-progress': '',
+                'completed': '',
+                'cancelled': 'cancelled'
+            };
+            
+            const statusLabels = {
+                'scheduled': 'Pending',
+                'confirmed': 'Confirmed',
+                'in-progress': 'In Progress',
+                'completed': 'Completed',
+                'cancelled': 'Cancelled'
+            };
+            
+            const card = document.createElement('div');
+            card.className = 'appointment-card';
+            card.innerHTML = `
+                <img src="${appointment.providerImage || 'https://via.placeholder.com/60'}" alt="${appointment.providerName}">
+                <div class="appointment-details">
+                    <h4>${appointment.providerName}</h4>
+                    <p>${appointment.serviceType}</p>
+                    <span class="appointment-status ${statusClasses[appointment.status]}">${statusLabels[appointment.status]}</span>
+                </div>
+                <div class="appointment-time">
+                    <p>${formatDate(date)}</p>
+                    <p>${formatTime(date)}</p>
+                </div>
+            `;
+            return card;
+        }
+        
+        function createProviderCard(provider) {
+            const card = document.createElement('div');
+            card.className = 'provider-card';
+            card.innerHTML = `
+                <img src="${provider.image || 'https://via.placeholder.com/80'}" alt="${provider.name}">
+                <h4>${provider.name}</h4>
+                <p>${provider.specialty || 'Auto Services'}</p>
+                <button class="btn-book">Book Service</button>
+            `;
+            return card;
+        }
+        
+        async function loadVehicles() {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+            
+            showLoading(true);
+            const vehiclesContainer = document.getElementById('vehiclesContainer');
+            const noVehiclesMessage = document.getElementById('noVehiclesMessage');
+            
+            try {
+                const querySnapshot = await db.collection('vehicles')
+                    .where('ownerId', '==', userId)
+                    .get();
+                
+                vehiclesContainer.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    noVehiclesMessage.style.display = 'block';
+                } else {
+                    noVehiclesMessage.style.display = 'none';
+                    querySnapshot.forEach(doc => {
+                        const vehicle = doc.data();
+                        const vehicleCard = document.createElement('div');
+                        vehicleCard.className = 'vehicle-card';
+                        vehicleCard.innerHTML = `
+                            <div class="vehicle-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="vehicle-details">
+                                <h4>${vehicle.make} ${vehicle.model} (${vehicle.year})</h4>
+                                <p>${vehicle.licensePlate} • ${vehicle.color} • ${vehicle.type}</p>
+                            </div>
+                            <div class="vehicle-actions">
+                                <button class="edit" data-id="${doc.id}"><i class="fas fa-edit"></i></button>
+                                <button class="delete" data-id="${doc.id}"><i class="fas fa-trash"></i></button>
+                            </div>
+                        `;
+                        vehiclesContainer.appendChild(vehicleCard);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading vehicles:', error);
+                showNotification('Error loading vehicles', 'error');
+            }
+            showLoading(false);
+        }
+        
+        async function loadAllAppointments() {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+            
+            showLoading(true);
+            const upcomingContainer = document.getElementById('upcomingAppointmentsContainer');
+            const pastContainer = document.getElementById('pastAppointmentsContainer');
+            const noUpcomingMessage = document.getElementById('noUpcomingAppointmentsMessage');
+            const noPastMessage = document.getElementById('noPastAppointmentsMessage');
+            
+            try {
+                // Clear containers
+                upcomingContainer.innerHTML = '';
+                pastContainer.innerHTML = '';
+                
+                // Load upcoming appointments
+                const upcomingSnapshot = await db.collection('appointments')
+                    .where('clientId', '==', userId)
+                    .where('status', 'in', ['scheduled', 'confirmed', 'in-progress'])
+                    .orderBy('date', 'asc')
+                    .get();
+                
+                if (upcomingSnapshot.empty) {
+                    noUpcomingMessage.style.display = 'block';
+                } else {
+                    noUpcomingMessage.style.display = 'none';
+                    upcomingSnapshot.forEach(doc => {
+                        const appointment = doc.data();
+                        const date = appointment.date.toDate();
+                        upcomingContainer.appendChild(createAppointmentCard(appointment, date));
+                    });
+                }
+                
+                // Load past appointments
+                const pastSnapshot = await db.collection('appointments')
+                    .where('clientId', '==', userId)
+                    .where('status', 'in', ['completed', 'cancelled'])
+                    .orderBy('date', 'desc')
+                    .limit(10)
+                    .get();
+                
+                if (pastSnapshot.empty) {
+                    noPastMessage.style.display = 'block';
+                } else {
+                    noPastMessage.style.display = 'none';
+                    pastSnapshot.forEach(doc => {
+                        const appointment = doc.data();
+                        const date = appointment.date.toDate();
+                        pastContainer.appendChild(createAppointmentCard(appointment, date));
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading appointments:', error);
+                showNotification('Error loading appointments', 'error');
+            }
+            showLoading(false);
+        }
+        
+        async function loadServiceHistory() {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+            
+            showLoading(true);
+            const historyContainer = document.getElementById('serviceHistoryContainer');
+            const noHistoryMessage = document.getElementById('noServiceHistoryMessage');
+            
+            try {
+                const querySnapshot = await db.collection('appointments')
+                    .where('clientId', '==', userId)
+                    .where('status', '==', 'completed')
+                    .orderBy('date', 'desc')
+                    .get();
+                
+                historyContainer.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    noHistoryMessage.style.display = 'block';
+                } else {
+                    noHistoryMessage.style.display = 'none';
+                    querySnapshot.forEach(doc => {
+                        const appointment = doc.data();
+                        const date = appointment.date.toDate();
+                        historyContainer.appendChild(createServiceHistoryCard(appointment, date));
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading service history:', error);
+                showNotification('Error loading service history', 'error');
+            }
+            showLoading(false);
+        }
+        
+        function createServiceHistoryCard(appointment, date) {
+            const card = document.createElement('div');
+            card.className = 'appointment-card';
+            card.innerHTML = `
+                <img src="${appointment.providerImage || 'https://via.placeholder.com/60'}" alt="${appointment.providerName}">
+                <div class="appointment-details">
+                    <h4>${appointment.providerName}</h4>
+                    <p>${appointment.serviceType}</p>
+                    <p>Vehicle: ${appointment.vehicleMake} ${appointment.vehicleModel}</p>
+                </div>
+                <div class="appointment-time">
+                    <p>${formatDate(date)}</p>
+                    <p>Completed</p>
+                </div>
+            `;
+            return card;
+        }
+        
+        async function loadNotifications() {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+            
+            showLoading(true);
+            const notificationsContainer = document.getElementById('notificationsContainer');
+            const noNotificationsMessage = document.getElementById('noNotificationsMessage');
+            
+            try {
+                const querySnapshot = await db.collection('notifications')
+                    .where('userId', '==', userId)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+                
+                notificationsContainer.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    noNotificationsMessage.style.display = 'block';
+                } else {
+                    noNotificationsMessage.style.display = 'none';
+                    querySnapshot.forEach(doc => {
+                        const notification = doc.data();
+                        notificationsContainer.appendChild(createNotificationCard(notification));
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                showNotification('Error loading notifications', 'error');
+            }
+            showLoading(false);
+        }
+        
+        function createNotificationCard(notification) {
+            const date = notification.createdAt.toDate();
+            const card = document.createElement('div');
+            card.className = `appointment-card ${notification.read ? '' : 'unread'}`;
+            card.innerHTML = `
+                <div class="vehicle-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="appointment-details">
+                    <h4>${notification.title}</h4>
+                    <p>${notification.message}</p>
+                </div>
+                <div class="appointment-time">
+                    <p>${formatDate(date)}</p>
+                    <p>${formatTime(date)}</p>
+                </div>
+            `;
+            return card;
+        }
+        
+        async function loadProfileSettings() {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            showLoading(true);
+            
+            try {
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists) {
+                    const userData = doc.data();
+                    document.getElementById('firstName').value = userData.firstName || '';
+                    document.getElementById('lastName').value = userData.lastName || '';
+                    document.getElementById('email').value = userData.email || user.email || '';
+                    document.getElementById('phone').value = userData.phone || '';
+                }
+            } catch (error) {
+                console.error('Error loading profile data:', error);
+                showNotification('Error loading profile data', 'error');
+            }
+            showLoading(false);
+        }
+        
+        // Event Listeners
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+        
+        logoutBtn.addEventListener('click', () => {
+            showLoading(true);
+            auth.signOut().catch(error => {
+                console.error('Error signing out:', error);
+                showNotification('Error signing out', 'error');
+                showLoading(false);
+            });
+        });
+        
+        // Modal Functions
+        function showAddVehicleModal() {
+            addVehicleModal.classList.add('active');
+        }
+        
+        function hideAddVehicleModal() {
+            addVehicleModal.classList.remove('active');
+            addVehicleForm.reset();
+        }
+        
+        async function showBookServiceModal() {
+            await loadVehiclesForServiceBooking();
+            bookServiceModal.classList.add('active');
+        }
+        
+        function hideBookServiceModal() {
+            bookServiceModal.classList.remove('active');
+            bookServiceForm.reset();
+        }
+        
+        async function loadVehiclesForServiceBooking() {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+            
+            const serviceVehicleSelect = document.getElementById('serviceVehicle');
+            serviceVehicleSelect.innerHTML = '<option value="">Select a Vehicle</option>';
+            
+            try {
+                const querySnapshot = await db.collection('vehicles')
+                    .where('ownerId', '==', userId)
+                    .get();
+                
+                querySnapshot.forEach(doc => {
+                    const vehicle = doc.data();
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = `${vehicle.make} ${vehicle.model} (${vehicle.licensePlate})`;
+                    serviceVehicleSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading vehicles:', error);
+                showNotification('Error loading vehicles', 'error');
+            }
+        }
+        
+        // Navigation
+        navMenuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navMenuLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                const sectionId = link.getAttribute('data-section');
+                contentSections.forEach(section => {
+                    section.style.display = 'none';
+                });
+                document.getElementById(`${sectionId}Section`).style.display = 'block';
+                
+                switch(sectionId) {
+                    case 'vehicles':
+                        loadVehicles();
+                        break;
+                    case 'appointments':
+                        loadAllAppointments();
+                        break;
+                    case 'history':
+                        loadServiceHistory();
+                        break;
+                    case 'notifications':
+                        loadNotifications();
+                        break;
+                    case 'settings':
+                        loadProfileSettings();
+                        break;
+                }
+            });
+        });
+        
+        viewAllLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.getAttribute('data-section');
+                document.querySelector(`.nav-menu a[data-section="${section}"]`).click();
+            });
+        });
+        
+        // Save Vehicle
+        saveVehicle.addEventListener('click', async () => {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+            
+            const make = document.getElementById('vehicleMake').value.trim();
+            const model = document.getElementById('vehicleModel').value.trim();
+            const year = document.getElementById('vehicleYear').value.trim();
+            const license = document.getElementById('vehicleLicense').value.trim();
+            const type = document.getElementById('vehicleType').value;
+            const color = document.getElementById('vehicleColor').value.trim();
+            const mileage = document.getElementById('vehicleMileage').value.trim() || 0;
+            
+            if (!make || !model || !year || !license || !type || !color) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            showLoading(true);
+            
+            try {
+                await db.collection('vehicles').add({
+                    ownerId: userId,
+                    make,
+                    model,
+                    year: parseInt(year),
+                    licensePlate: license,
+                    type,
+                    color,
+                    mileage: parseInt(mileage),
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                showNotification('Vehicle added successfully', 'success');
+                hideAddVehicleModal();
+                loadVehicles();
+                loadDashboardData(userId);
+            } catch (error) {
+                console.error('Error adding vehicle:', error);
+                showNotification('Error adding vehicle', 'error');
+            }
+            showLoading(false);
+        });
+        
+        // Book Service
+        confirmBookService.addEventListener('click', async () => {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+            
+            const vehicleId = document.getElementById('serviceVehicle').value;
+            const serviceType = document.getElementById('serviceType').value;
+            const provider = document.getElementById('serviceProvider').value;
+            const date = document.getElementById('serviceDate').value;
+            const time = document.getElementById('serviceTime').value;
+            const notes = document.getElementById('serviceNotes').value.trim();
+            
+            if (!vehicleId || !serviceType || !provider || !date || !time) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            showLoading(true);
+            
+            try {
+                const vehicleDoc = await db.collection('vehicles').doc(vehicleId).get();
+                if (!vehicleDoc.exists) {
+                    throw new Error('Vehicle not found');
+                }
+                
+                const vehicle = vehicleDoc.data();
+                const appointmentDate = new Date(`${date}T${time}`);
+                
+                const providerDetails = {
+                    'quick_auto': { name: 'Quick Auto Service', image: 'https://via.placeholder.com/60' },
+                    'elite_auto': { name: 'Elite Auto Repairs', image: 'https://via.placeholder.com/60' },
+                    'premium_care': { name: 'Premium Car Care', image: 'https://via.placeholder.com/60' },
+                    'autotech': { name: 'AutoTech Experts', image: 'https://via.placeholder.com/60' }
+                };
+                
+                await db.collection('appointments').add({
+                    clientId: userId,
+                    vehicleId,
+                    serviceType,
+                    providerId: provider,
+                    providerName: providerDetails[provider].name,
+                    providerImage: providerDetails[provider].image,
+                    vehicleMake: vehicle.make,
+                    vehicleModel: vehicle.model,
+                    vehicleLicense: vehicle.licensePlate,
+                    date: appointmentDate,
+                    notes,
+                    status: 'scheduled',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                showNotification('Service booked successfully', 'success');
+                hideBookServiceModal();
+                loadDashboardData(userId);
+            } catch (error) {
+                console.error('Error booking service:', error);
+                showNotification('Error booking service', 'error');
+            }
+            showLoading(false);
+        });
+        
+        // Mark all notifications as read
+        markAllAsReadBtn.addEventListener('click', async () => {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+            
+            showLoading(true);
+            
+            try {
+                const batch = db.batch();
+                const notificationsSnapshot = await db.collection('notifications')
+                    .where('userId', '==', userId)
+                    .where('read', '==', false)
+                    .get();
+                
+                notificationsSnapshot.forEach(doc => {
+                    batch.update(doc.ref, { read: true });
+                });
+                
+                await batch.commit();
+                showNotification('All notifications marked as read', 'success');
+                loadNotifications();
+            } catch (error) {
+                console.error('Error marking notifications as read:', error);
+                showNotification('Error marking notifications as read', 'error');
+            }
+            showLoading(false);
+        });
+        
+        // Save profile changes
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const profileImage = document.getElementById('profileImage').files[0];
+            
+            if (!firstName || !lastName || !email) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            showLoading(true);
+            
+            try {
+                const promises = [];
+                
+                if (email !== user.email) {
+                    promises.push(user.updateEmail(email));
+                }
+                
+                const userData = {
+                    firstName,
+                    lastName,
+                    email,
+                    phone: phone || null,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                promises.push(db.collection('users').doc(user.uid).set(userData, { merge: true }));
+                
+                if (profileImage) {
+                    const storageRef = storage.ref(`users/${user.uid}/profile.jpg`);
+                    const uploadTask = await storageRef.put(profileImage);
+                    const url = await uploadTask.ref.getDownloadURL();
+                    promises.push(db.collection('users').doc(user.uid).update({ profileImage: url }));
+                }
+                
+                await Promise.all(promises);
+                showNotification('Profile updated successfully', 'success');
+                userName.textContent = `${firstName} ${lastName}`;
+                userEmail.textContent = email;
+                
+                if (profileImage) {
+                    userAvatar.src = URL.createObjectURL(profileImage);
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showNotification('Error updating profile', 'error');
+            }
+            showLoading(false);
+        });
+        
+        // Change password
+        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('Please fill in all password fields', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('New passwords do not match', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showNotification('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            showLoading(true);
+            
+            try {
+                const credential = firebase.auth.EmailAuthProvider.credential(
+                    user.email,
+                    currentPassword
+                );
+                
+                await user.reauthenticateWithCredential(credential);
+                await user.updatePassword(newPassword);
+                showNotification('Password changed successfully', 'success');
+                document.getElementById('passwordForm').reset();
+            } catch (error) {
+                console.error('Error changing password:', error);
+                if (error.code === 'auth/wrong-password') {
+                    showNotification('Current password is incorrect', 'error');
+                } else {
+                    showNotification('Error changing password', 'error');
+                }
+            }
+            showLoading(false);
+        });
+        
+        document.getElementById('cancelProfileChanges').addEventListener('click', () => {
+            loadProfileSettings();
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === addVehicleModal) hideAddVehicleModal();
+            if (e.target === bookServiceModal) hideBookServiceModal();
+        });
+        
+        // Modal Event Listeners
+        addVehicleBtn.addEventListener('click', showAddVehicleModal);
+        addVehicleBtn2.addEventListener('click', showAddVehicleModal);
+        closeAddVehicleModal.addEventListener('click', hideAddVehicleModal);
+        cancelAddVehicle.addEventListener('click', hideAddVehicleModal);
+        
+        bookServiceBtn.addEventListener('click', showBookServiceModal);
+        bookServiceBtn2.addEventListener('click', showBookServiceModal);
+        closeBookServiceModal.addEventListener('click', hideBookServiceModal);
+        cancelBookService.addEventListener('click', hideBookServiceModal);
+        
+        // Initialize
+        auth.onAuthStateChanged(handleAuthState);
+    </script>
+</body>
+</html>
