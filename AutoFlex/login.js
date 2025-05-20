@@ -217,7 +217,7 @@ async function handleProfileSetup(e) {
         showLoading(true);
         
         // Get current user
-        const user = auth.currentUser;
+        let user = auth.currentUser;
         
         if (!user) {
             // User not authenticated, try to create account first

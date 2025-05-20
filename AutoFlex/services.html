@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoflex - Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="autoflex.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="autoflex.html" class="logo">Autoflex</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="autoflex.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link active">Services</a></li>
+                <li><a href="providers.html" class="nav-link">Providers</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <a href="login.html" class="login-btn">Login / Sign Up</a>
+        </div>
+    </header>
+
+    <!-- Search Results Header -->
+    <section class="hero small-hero">
+        <div class="container">
+            <div class="hero-content animate">
+                <h1>Provider Auto Services</h1>                <div class="search-bar">
+                    <div class="search-input">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="serviceSearch" placeholder="Search for provider services">
+                    </div>
+                    <div class="search-input">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="locationSearch" placeholder="Select your city">
+                    </div>
+                    <button type="button" class="search-btn" id="searchBtn">Find Services</button>
+                </div>
+            </div>
+        </div>
+        <div class="wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Search Results -->
+    <section class="services search-results">
+        <div class="container">
+            <h2 id="searchResultsHeading">Search Results</h2>
+            <div id="searchTerms" class="search-terms"></div>
+            <div id="noResultsMessage" style="display: none;" class="no-results">
+                <i class="fas fa-search"></i>
+                <h3>No services found</h3>
+                <p>Please try a different search term or location</p>
+            </div>
+            <div id="resultsContainer" class="services-grid animate delay-1">
+                <!-- Service results will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-company">
+                    <h3>Autoflex</h3>
+                    <p>Autoflex connects car owners with top-rated auto service providers. Find, book, and pay for auto services all in one place.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-links-column">
+                        <h3>Site Links</h3>
+                        <ul>
+                            <li><a href="autoflex.html">Home</a></li>
+                            <li><a href="services.html">Services</a></li>
+                            <li><a href="providers.html">Providers</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-column">
+                        <h3>Popular Services</h3>
+                        <ul>
+                            <li><a href="#">Oil Change</a></li>
+                            <li><a href="#">Tire Replacement</a></li>
+                            <li><a href="#">Car Detailing</a></li>
+                            <li><a href="#">Brake Service</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-column">
+                        <h3>Support</h3>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Autoflex. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="services.js"></script>
+</body>
+</html>

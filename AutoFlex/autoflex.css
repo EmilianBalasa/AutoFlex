@@ -360,8 +360,20 @@ header {
 }
 
 .provider-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.provider-rating i {
     color: #FFD700;
-    margin-bottom: 10px;
+    font-size: 0.8rem;
+}
+
+.provider-rating span {
+    color: #777;
+    font-size: 0.8rem;
 }
 
 .provider-location {
@@ -615,6 +627,43 @@ footer {
     }
 }
 
+/* Search Notification */
+.search-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.search-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.search-notification.info {
+    background-color: #2196F3;
+}
+
+.search-notification.success {
+    background-color: #4CAF50;
+}
+
+.search-notification.error {
+    background-color: #F44336;
+}
+
+.search-notification.warning {
+    background-color: #FF9800;
+}
+
 /* Animation */
 @keyframes fadeInUp {
     from {
@@ -641,4 +690,301 @@ footer {
 
 .delay-3 {
     animation-delay: 0.6s;
+}
+
+/* Services page specific styles */
+.small-hero {
+    padding: 60px 0 100px;
+}
+
+.search-terms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 30px;
+}
+
+.search-term {
+    background-color: rgba(var(--primary-rgb), 0.1);
+    color: var(--primary-color);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-term i {
+    font-size: 0.8rem;
+}
+
+.no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.no-results i {
+    font-size: 3rem;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.no-results h3 {
+    font-size: 1.5rem;
+    color: var(--dark-color);
+    margin-bottom: 10px;
+}
+
+.no-results p {
+    color: var(--text-color);
+}
+
+.service-content {
+    padding: 20px;
+}
+
+.service-content h3 {
+    font-size: 1.3rem;
+    color: var(--dark-color);
+    margin-bottom: 10px;
+}
+
+.service-content p {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.service-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.service-price {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.service-location {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.service-provider {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.btn-service {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-service:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Service Modal Styles */
+.service-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.service-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.service-modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalFadeIn 0.5s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 10;
+}
+
+.close-modal:hover {
+    color: var(--primary-color);
+}
+
+.service-modal-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.service-modal-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--dark-color);
+}
+
+.service-modal-body {
+    padding: 25px;
+}
+
+.service-detail-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.service-description {
+    margin-bottom: 25px;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.service-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.service-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+}
+
+.service-meta-item i {
+    color: var(--primary-color);
+}
+
+.service-meta-item .provider-rating {
+    margin-left: 10px;
+}
+
+.service-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-book, .btn-contact {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-book {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-book:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn-contact {
+    background-color: #f5f5f5;
+    color: var(--dark-color);
+}
+
+.btn-contact:hover {
+    background-color: #e5e5e5;
+}
+
+.service-category {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 106, 61, 0.85);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.service-tag {
+    background-color: #f0f0f0;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: #555;
+}
+
+.service-icon {
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .service-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .service-actions {
+        flex-direction: column;
+    }
+    
+    .service-modal-content {
+        width: 95%;
+    }
 }

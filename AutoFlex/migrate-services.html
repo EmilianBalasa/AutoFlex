@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoFlex - Service Migration Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="autoflex.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #003d82;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="autoflex.html" class="logo">Autoflex</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="autoflex.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="providers.html" class="nav-link">Providers</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <a href="login.html" class="login-btn">Login</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Service Migration Tool</h1>
+        
+        <div class="warning">
+            <strong>Warning:</strong> This tool will update all existing services in the database to include the necessary fields for search functionality. This is a one-time operation and should only be run once. Please make sure you understand what this tool does before proceeding.
+        </div>
+        
+        <p>This migration tool will:</p>
+        <ul>
+            <li>Add location information to services that don't have it</li>
+            <li>Ensure price is formatted correctly as a string with currency symbol</li>
+            <li>Generate tags for services that don't have them</li>
+            <li>Set provider names for services</li>
+            <li>Add default images for services that don't have them</li>
+        </ul>
+        
+        <p>After running this tool, all services will be properly searchable using the enhanced search functionality.</p>
+        
+        <div class="button-container">
+            <button id="migrateButton">Run Migration</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Autoflex. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <!-- Migration Script -->
+    <script src="migrate-services.js"></script>
+</body>
+</html>
