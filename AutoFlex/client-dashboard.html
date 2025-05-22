@@ -2,10 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoflex - Client Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Autoflex - Client Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="client-dashboard.css">
+    <style>
+        .text-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            font-family: inherit;
+            transition: color 0.3s;
+        }
+        .text-button:hover {
+            color: #0056b3 !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Loading Spinner -->
@@ -345,16 +358,17 @@
                             <option value="air_filter">Air Filter Replacement</option>
                             <option value="other">Other Service</option>
                         </select>
-                    </div>
-                    <div class="form-group">
+                    </div>                    <div class="form-group">
                         <label for="serviceProvider" class="form-label">Service Provider</label>
                         <select id="serviceProvider" class="form-select" required>
                             <option value="">Select a Provider</option>
-                            <option value="quick_auto">Quick Auto Service</option>
-                            <option value="elite_auto">Elite Auto Repairs</option>
-                            <option value="premium_care">Premium Car Care</option>
-                            <option value="autotech">AutoTech Experts</option>
+                            <!-- Providers will be loaded from Firebase -->
                         </select>
+                        <div id="adminProviderControls" style="display: none; margin-top: 8px;">
+                            <button type="button" id="seedDemoProvidersBtn" class="text-button" style="font-size: 12px; color: #666;">
+                                Add Demo Providers (Admin Only)
+                            </button>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="serviceDate" class="form-label">Date</label>
@@ -1335,6 +1349,69 @@ function handleShowBookServiceModal() {
         
         const dateInput = document.getElementById('serviceDate');
         if (dateInput) dateInput.value = formattedDate;
+        
+        // Load providers from Firebase
+        loadServiceProviders();
+    }
+}
+
+// Function to load providers from Firebase
+async function loadServiceProviders() {
+    try {
+        const serviceProviderSelect = document.getElementById('serviceProvider');
+        const adminProviderControls = document.getElementById('adminProviderControls');
+        
+        if (!serviceProviderSelect) return;
+        
+        // Show admin controls if user is admin
+        if (currentUser && currentUserRole === 'admin' && adminProviderControls) {
+            adminProviderControls.style.display = 'block';
+        }
+        
+        // Clear existing options except the first one
+        while (serviceProviderSelect.options.length > 1) {
+            serviceProviderSelect.remove(1);
+        }
+        
+        // Add a loading indicator
+        const loadingOption = document.createElement('option');
+        loadingOption.text = 'Loading providers...';
+        loadingOption.disabled = true;
+        serviceProviderSelect.add(loadingOption);
+          // Get providers from Firebase
+        let providersSnapshot = await db.collection('providers').get();
+        
+        // Remove the loading indicator
+        serviceProviderSelect.remove(serviceProviderSelect.options.length - 1);
+        
+        if (providersSnapshot.empty) {
+            const noProvidersOption = document.createElement('option');
+            noProvidersOption.text = 'No providers available';
+            noProvidersOption.disabled = true;
+            serviceProviderSelect.add(noProvidersOption);
+            
+            // Show a message to admin users that they can add providers
+            if (currentUser && currentUserRole === 'admin') {
+                console.log("Admin user detected, providers can be added through the admin dashboard");
+                // You could add a message below the dropdown for admin users
+            }
+        } else {
+            // Add providers to select
+            providersSnapshot.forEach(doc => {
+                const provider = doc.data();
+                const option = document.createElement('option');                // Only add providers with valid names
+                if (provider.name && provider.name.trim() !== '') {
+                    option.value = doc.id;
+                    option.text = provider.name;
+                    serviceProviderSelect.add(option);
+                } else {
+                    console.log(`Provider with ID ${doc.id} has no name, skipping`);
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error loading providers:', error);
+        // Keep the default options in case of error
     }
 }
 
@@ -1949,6 +2026,26 @@ async function handleDeleteNotification(notificationId) {
     showLoading(false);
 }
 
+// Admin Functions
+async function handleSeedDemoProviders() {
+    if (currentUser && currentUserRole === 'admin') {
+        try {
+            const confirmSeed = confirm('Are you sure you want to add demo providers to the system? This should only be done in a testing environment.');
+            if (confirmSeed) {
+                await seedDemoProviders();
+                alert('Demo providers added successfully. Please refresh the page to see the changes.');
+                // Reload the providers in the dropdown
+                await loadServiceProviders();
+            }
+        } catch (error) {
+            console.error('Error seeding demo providers:', error);
+            alert('Failed to add demo providers: ' + error.message);
+        }
+    } else {
+        console.error('Only admin users can seed demo providers');
+    }
+}
+
 // Demo Data Seeding
 async function seedDemoProviders() {
     try {
@@ -2098,6 +2195,10 @@ if (bookServiceBtn2) bookServiceBtn2.addEventListener('click', handleShowBookSer
 if (closeBookServiceModal) closeBookServiceModal.addEventListener('click', handleCloseBookServiceModal);
 if (cancelBookService) cancelBookService.addEventListener('click', handleCloseBookServiceModal);
 if (confirmBookService) confirmBookService.addEventListener('click', handleBookService);
+
+// Admin controls
+const seedDemoProvidersBtn = document.getElementById('seedDemoProvidersBtn');
+if (seedDemoProvidersBtn) seedDemoProvidersBtn.addEventListener('click', handleSeedDemoProviders);
 
 // Notifications
 if (markAllAsReadBtn) markAllAsReadBtn.addEventListener('click', handleMarkAllNotificationsAsRead);

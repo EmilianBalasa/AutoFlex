@@ -190,9 +190,34 @@ header {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
     margin-top: 50px;
+    justify-content: center;
+}
+
+/* Stiluri specifice pentru container cu puține carduri */
+.search-results .services-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 350px));
+}
+
+/* Stil specific pentru când există un singur serviciu */
+.services-grid.single-service {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.services-grid.single-service .service-card {
+    grid-column: 2;
+}
+
+@media (max-width: 992px) {
+    .services-grid.single-service {
+        grid-template-columns: 1fr;
+    }
+    
+    .services-grid.single-service .service-card {
+        grid-column: auto;
+    }
 }
 
 .service-card {
@@ -202,6 +227,9 @@ header {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .service-card:hover {

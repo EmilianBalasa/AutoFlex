@@ -8,6 +8,15 @@ The search functionality in AutoFlex has been enhanced to search for services ad
 3. Service category
 4. Service tags
 
+## Important Update (May 2025)
+The search functionality has been updated to **only display real provider-added services** from the Firebase database. Mock/test services have been completely removed from search results to ensure users only see actual available services.
+
+Main changes include:
+1. Removed all fallbacks to mock data
+2. Improved error handling for Firebase connection issues
+3. Enhanced user notifications when no services are found
+4. More informative "No results" messaging
+
 ## Implementation Details
 
 ### Search Process
@@ -15,18 +24,19 @@ The search functionality in AutoFlex has been enhanced to search for services ad
 2. The function attempts to use Firebase Firestore if available
 3. If Firebase is available, it queries the `services` collection
 4. The search applies filters on the client-side to allow searching across multiple fields
-5. If Firebase permissions fail, the system gracefully falls back to mock data
+5. If Firebase permissions fail, the system shows a notification and no results
 
 ### Fallback Mechanism
-The code has been updated to handle Firebase permission errors gracefully:
+The code has been updated to display a notification when Firebase errors occur and no longer falls back to mock data:
 
 ```javascript
 try {
     // Firebase query code...
 } catch (permissionError) {
     console.warn('Firebase permission error:', permissionError.message);
-    console.log('Falling back to mock data due to permission issues');
-    displayMockResults(service, location, resultsContainer, noResultsMessage);
+    console.log('Unable to access database due to permission issues');
+    showNoResults(noResultsMessage, resultsContainer);
+    showNotification('Unable to access service database. Please try again later.', 'error');
     return;
 }
 ```
@@ -107,4 +117,4 @@ A new "Service Migration Tool" has been created to update existing services to i
 2. **Firebase permissions error**:
    - Verify the Firestore rules have been deployed (see FIREBASE-SETUP.md)
    - Check the browser console for specific error messages
-   - The app will fall back to mock data if permissions aren't set correctly
+   - Asigurați-vă că utilizatorii sunt autentificați dacă regulile de securitate necesită acest lucru

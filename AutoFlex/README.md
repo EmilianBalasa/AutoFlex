@@ -39,6 +39,11 @@ The improved search system allows users to find services offered by providers ac
 
 1. **Service name** - The primary title of the service
 2. **Service description** - Detailed information about what's included
+3. **Service category** - The type of service (e.g., Maintenance, Repair)
+4. **Service tags** - Keywords associated with the service
+5. **Location** - Where the service is offered
+
+The search now exclusively displays real services added by providers in the Firebase database, ensuring users only see actual available services. Mock/test services have been removed from search results.
 3. **Service category** - Classification of the service
 4. **Service tags** - Keywords to improve searchability
 5. **Location** - Where the service is offered

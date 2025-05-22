@@ -215,21 +215,20 @@ function fetchSearchResults(service, location) {
             }
             
             db = firebase.firestore();
-            console.log('Firebase Firestore initialized');
-        } else {
-            console.log('Firebase not available, using mock data');
+            console.log('Firebase Firestore initialized');        } else {
+            console.log('Firebase not available, no services will be shown');
         }
     } catch (error) {
         console.error('Error initializing Firebase:', error);
     }
-    
-    // If Firestore is available, fetch actual data
+      // Always try to fetch actual data from Firestore
     if (db) {
         fetchServicesFromFirestore(db, service, location, resultsContainer, noResultsMessage);
     } else {
-        // Otherwise use mock data for demonstration
-        console.log('Using mock data for search results');
-        displayMockResults(service, location, resultsContainer, noResultsMessage);
+        // If Firebase isn't available, show a message
+        console.log('Firebase not available, showing no results');
+        showNoResults(noResultsMessage, resultsContainer);
+        showNotification('Unable to connect to service database. Please try again later.', 'error');
     }
 }
 
@@ -271,11 +270,11 @@ async function fetchServicesFromFirestore(db, service, location, resultsContaine
             } else {
                 // No filters, get all services
                 snapshot = await servicesRef.get();
-            }
-        } catch (permissionError) {
+            }        } catch (permissionError) {
             console.warn('Firebase permission error:', permissionError.message);
-            console.log('Falling back to mock data due to permission issues');
-            displayMockResults(service, location, resultsContainer, noResultsMessage);
+            console.log('Unable to access database due to permission issues');
+            showNoResults(noResultsMessage, resultsContainer);
+            showNotification('Unable to access service database. Please try again later.', 'error');
             return;
         }
         
@@ -318,107 +317,33 @@ async function fetchServicesFromFirestore(db, service, location, resultsContaine
             displayResults(filteredServices, resultsContainer);
             noResultsMessage.style.display = 'none';
         }
-          } catch (error) {
+      } catch (error) {
         console.error('Error fetching services:', error);
-        console.log('Falling back to mock data due to error');
-        displayMockResults(service, location, resultsContainer, noResultsMessage);
+        console.log('Error accessing database');
+        showNoResults(noResultsMessage, resultsContainer);
+        showNotification('Error searching services. Please try again later.', 'error');
     }
 }
 
-// Display mock results for demonstration
-function displayMockResults(service, location, resultsContainer, noResultsMessage) {    // Mock data for demonstration purposes - representing provider offered services
-    const mockServices = [
-        {
-            id: '1',
-            serviceName: 'Premium Oil Change Service',
-            description: 'Full synthetic oil change with filter replacement and multi-point inspection',
-            price: '$49.99',
-            location: 'New York',
-            provider: 'AutoCare Express',
-            providerRating: 4.8,
-            image: 'https://source.unsplash.com/random/300x200/?car,oil',
-            category: 'Maintenance',
-            tags: ['oil change', 'maintenance', 'fluid change']
-        },
-        {
-            id: '2',
-            serviceName: 'Professional Tire Replacement',
-            description: 'All season tire replacement and balancing with alignment check',
-            price: '$89.99 per tire',
-            location: 'Chicago',
-            provider: 'Tire Kings',
-            providerRating: 4.5,
-            image: 'https://source.unsplash.com/random/300x200/?car,tire',
-            category: 'Tires',
-            tags: ['tires', 'wheels', 'balancing', 'alignment']
-        },
-        {
-            id: '3',
-            serviceName: 'Complete Brake Service',
-            description: 'Front and rear brake pad replacement with rotor inspection',
-            price: '$159.99',
-            location: 'Los Angeles',
-            provider: 'Brake Masters',
-            providerRating: 4.7,
-            image: 'https://source.unsplash.com/random/300x200/?car,brake',
-            category: 'Brakes',
-            tags: ['brakes', 'safety', 'brake pads', 'rotors']
-        },
-        {
-            id: '4',
-            serviceName: 'Premium Car Detailing Package',
-            description: 'Complete interior and exterior detailing with ceramic coating',
-            price: '$199.99',
-            location: 'New York',
-            provider: 'Shine Pro Auto',
-            providerRating: 4.9,
-            image: 'https://source.unsplash.com/random/300x200/?car,detailing',
-            category: 'Detailing',
-            tags: ['detailing', 'cleaning', 'ceramic coating', 'interior', 'exterior']
-        },
-        {
-            id: '5',
-            serviceName: 'Advanced Engine Tune-Up',
-            description: 'Comprehensive engine diagnostic and performance tune-up',
-            price: '$129.99',
-            location: 'Chicago',
-            provider: 'Engine Works',
-            providerRating: 4.6,
-            category: 'Engine',
-            image: 'https://source.unsplash.com/random/300x200/?car,engine',
-            tags: ['engine', 'performance', 'tune-up', 'diagnostics']
-        }
-    ];
-      // Filter mock data based on search parameters - includes search across multiple service fields
-    let filteredServices = mockServices;
-      if (service || location) {
-        filteredServices = mockServices.filter(item => {
-            // Enhanced search that looks at multiple service fields including tags
-            const matchService = !service || 
-                item.serviceName.toLowerCase().includes(service.toLowerCase()) || 
-                (item.description && item.description.toLowerCase().includes(service.toLowerCase())) ||
-                (item.category && item.category.toLowerCase().includes(service.toLowerCase())) ||
-                (item.tags && Array.isArray(item.tags) && item.tags.some(tag => 
-                    tag.toLowerCase().includes(service.toLowerCase())));
-                
-            const matchLocation = !location || item.location.toLowerCase().includes(location.toLowerCase());
-            return matchService && matchLocation;
-        });
-    }
-    
-    // Display results or no results message
-    if (filteredServices.length === 0) {
-        showNoResults(noResultsMessage, resultsContainer);
-    } else {
-        displayResults(filteredServices, resultsContainer);
-        noResultsMessage.style.display = 'none';
-    }
+// DEPRECATED: This function is no longer used - kept for reference only
+// DEPRECATED: Function for showing mock data - no longer used or needed
+function displayMockResults(service, location, resultsContainer, noResultsMessage) {
+    console.log('Mock data display has been removed');
+    showNoResults(noResultsMessage, resultsContainer);
+    showNotification('Serviciile prestabilite au fost eliminate. Doar serviciile furnizorilor vor fi afișate.', 'info');
 }
 
 // Display search results
 function displayResults(services, container) {
     container.innerHTML = '';
     console.log('Displaying', services.length, 'services');
+    
+    // Adaugă clasă specială la container când există un singur serviciu
+    if (services.length === 1) {
+        container.classList.add('single-service');
+    } else {
+        container.classList.remove('single-service');
+    }
     
     services.forEach(service => {
         const serviceCard = document.createElement('div');
@@ -466,6 +391,12 @@ function displayResults(services, container) {
 function showNoResults(noResultsMessage, resultsContainer) {
     resultsContainer.innerHTML = '';
     noResultsMessage.style.display = 'flex';
+    
+    // Update the message text to be more informative
+    const messageText = noResultsMessage.querySelector('p');
+    if (messageText) {
+        messageText.innerHTML = 'No services found matching your search criteria.<br>Try different search terms or check back later as more providers add services.';
+    }
 }
 
 // Generate star rating HTML based on rating value
@@ -511,87 +442,17 @@ async function showServiceDetail(serviceId) {
                         id: serviceDoc.id,
                         ...serviceDoc.data()
                     };
-                    console.log('Service found in Firebase:', service);
-                } else {
-                    console.log('Service not found in Firebase, falling back to mock data');
-                }
-            } catch (permissionError) {
+                    console.log('Service found in Firebase:', service);                } else {
+                    console.log('Service not found in Firebase');
+                    showNotification('Service details not found', 'error');
+                    return;
+                }            } catch (permissionError) {
                 console.warn('Firebase permission error when accessing service details:', permissionError.message);
-                console.log('Falling back to mock data due to permission issues');
+                showNotification('Unable to access service details due to permission issues', 'error');
+                return;
             }
         }
-        
-        // If service not found in Firebase, check mock data
-        if (!service) {
-            const mockServices = [
-                {
-                    id: '1',
-                    serviceName: 'Premium Oil Change Service',
-                    description: 'Full synthetic oil change with filter replacement and multi-point inspection',
-                    price: '$49.99',
-                    location: 'New York',
-                    provider: 'AutoCare Express',
-                    providerRating: 4.8,
-                    image: 'https://source.unsplash.com/random/300x200/?car,oil',
-                    category: 'Maintenance',
-                    tags: ['oil change', 'maintenance', 'fluid change'],
-                    details: 'Our premium oil change service includes high-quality synthetic oil, a new oil filter, and a comprehensive multi-point inspection of your vehicle. We check fluid levels, filter conditions, and perform a basic safety inspection.'
-                },
-        {
-            id: '2',
-            serviceName: 'Professional Tire Replacement',
-            description: 'All season tire replacement and balancing with alignment check',
-            price: '$89.99 per tire',
-            location: 'Chicago',
-            provider: 'Tire Kings',
-            providerRating: 4.5,
-            image: 'https://source.unsplash.com/random/300x200/?car,tire',
-            category: 'Tires',
-            tags: ['tires', 'wheels', 'balancing', 'alignment'],
-            details: 'Get your tires replaced by professionals. Our complete tire service includes removal of old tires, mounting of new tires, balancing, alignment check, and proper disposal of old tires. All work performed by certified technicians.'
-        },
-        {
-            id: '3',
-            serviceName: 'Complete Brake Service',
-            description: 'Front and rear brake pad replacement with rotor inspection',
-            price: '$159.99',
-            location: 'Los Angeles',
-            provider: 'Brake Masters',
-            providerRating: 4.7,
-            image: 'https://source.unsplash.com/random/300x200/?car,brake',
-            category: 'Brakes',
-            tags: ['brakes', 'safety', 'brake pads', 'rotors'],
-            details: 'Our complete brake service includes premium brake pads, thorough inspection of rotors, calipers, and brake lines for safety. We test your braking system to ensure it meets all safety standards and performs optimally.'
-        },
-        {
-            id: '4',
-            serviceName: 'Premium Car Detailing Package',
-            description: 'Complete interior and exterior detailing with ceramic coating',
-            price: '$199.99',
-            location: 'New York',
-            provider: 'Shine Pro Auto',
-            providerRating: 4.9,
-            image: 'https://source.unsplash.com/random/300x200/?car,detailing',
-            category: 'Detailing',
-            tags: ['detailing', 'cleaning', 'ceramic coating', 'interior', 'exterior'],
-            details: 'Our comprehensive detailing service includes exterior wash and wax, ceramic coating application, interior vacuuming, steam cleaning, leather conditioning, and treatment of all surfaces. Your car will look showroom new.'
-        },
-        {
-            id: '5',
-            serviceName: 'Advanced Engine Tune-Up',
-            description: 'Comprehensive engine diagnostic and performance tune-up',
-            price: '$129.99',
-            location: 'Chicago',
-            provider: 'Engine Works',
-            providerRating: 4.6,
-            category: 'Engine',
-            tags: ['engine', 'performance', 'tune-up', 'diagnostics'],
-            image: 'https://source.unsplash.com/random/300x200/?car,engine',
-            details: 'Our advanced engine tune-up includes spark plug replacement, fuel system cleaning, complete computer diagnostics, and adjustments to restore optimal engine performance and fuel efficiency.'
-        }
-    ];    service = mockServices.find(s => s.id === serviceId);
-        }
-    
+          // If service not found in Firebase, show an error
         if (!service) {
             showNotification('Service details not found', 'error');
             return;
