@@ -124,15 +124,14 @@
                                 <p id="noAppointmentsMessage" style="display: none;">No upcoming appointments. Book a service to get started.</p>
                             </div>
                         </div>
-                        
-                        <!-- Recently Used Providers -->
+                          <!-- Recently Used Providers -->
                         <div class="card">
                             <div class="card-header">
                                 <h2 class="card-title">Recently Used Providers</h2>
                                 <a href="providers.html" class="view-all">View All</a>
                             </div>
                             <div class="recent-providers" id="recentProvidersContainer">
-                                <p id="noProvidersMessage" style="display: none;">No recent service providers. Explore our network to find the right provider for your needs.</p>
+                                <p id="noProvidersMessage" style="display: none;">You haven't used any providers yet. Book a service to start building your service history.</p>
                             </div>
                         </div>
                     </div>
@@ -917,41 +916,59 @@ async function loadNotificationsData(userId) {
 
 async function loadProvidersData() {
     try {
-        console.log("Loading providers data");
-        
-        const providersSnapshot = await db.collection('providers')
-            .limit(4)
-            .get();
+        console.log("Loading user's recently used providers");
         
         if (!recentProvidersContainer) return;
+        if (!currentUser) return;
         
         recentProvidersContainer.innerHTML = '';
         
-        if (providersSnapshot.empty) {
+        // Get user's past appointments to find providers they've used
+        const pastAppointmentsSnapshot = await db.collection('appointments')
+            .where('clientId', '==', currentUser.uid)
+            .where('status', 'in', ['completed', 'cancelled'])
+            .orderBy('date', 'desc')
+            .get();
+            
+        // Extract unique provider IDs from past appointments
+        const uniqueProviderIds = new Set();
+        pastAppointmentsSnapshot.forEach(doc => {
+            const appointment = doc.data();
+            if (appointment.providerId) {
+                uniqueProviderIds.add(appointment.providerId);
+            }
+        });
+        
+        // If user has no past providers
+        if (uniqueProviderIds.size === 0) {
             if (noProvidersMessage) {
                 noProvidersMessage.style.display = 'block';
             }
-            
-            // If no providers exist, create demo providers
-            if (providersSnapshot.size === 0) {
-                console.log("No providers found, creating demo providers");
-                await seedDemoProviders();
-                await loadProvidersData();
-                return;
-            }
-        } else {
-            if (noProvidersMessage) {
-                noProvidersMessage.style.display = 'none';
-            }
-            
-            providersSnapshot.forEach(doc => {
-                const provider = {
-                    id: doc.id,
-                    ...doc.data()
-                };
-                recentProvidersContainer.appendChild(createProviderCard(provider));
-            });
+            return;
         }
+        
+        // Hide the no providers message
+        if (noProvidersMessage) {
+            noProvidersMessage.style.display = 'none';
+        }
+        
+        // Fetch details for each used provider
+        const providerPromises = Array.from(uniqueProviderIds).map(providerId => 
+            db.collection('providers').doc(providerId).get()
+        );
+        
+        const providerSnapshots = await Promise.all(providerPromises);
+        
+        // Filter out any providers that don't exist anymore
+        const validProviders = providerSnapshots.filter(doc => doc.exists).map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+        
+        // Display up to 4 recently used providers
+        validProviders.slice(0, 4).forEach(provider => {
+            recentProvidersContainer.appendChild(createProviderCard(provider));
+        });
     } catch (error) {
         console.error('Error loading providers data:', error);
         showNotification('Error loading providers. Please try again.', 'error');
