@@ -14,14 +14,19 @@
             <a href="autoflex.html" class="logo">Autoflex</a>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
-            </button>
-            <ul class="nav-links" id="navLinks">
+            </button>            <ul class="nav-links" id="navLinks">
                 <li><a href="autoflex.html" class="nav-link">Home</a></li>
                 <li><a href="services.html" class="nav-link active">Services</a></li>
                 <li><a href="providers.html" class="nav-link">Providers</a></li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
-            <a href="login.html" class="login-btn">Login / Sign Up</a>
+            <div class="user-section" id="userSection">
+                <a href="login.html" class="login-btn" id="loginBtn">Login / Sign Up</a>
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <img src="/api/placeholder/40/40" alt="Profile" class="profile-avatar" id="profileAvatar">
+                    <a href="client-dashboard.html" class="dashboard-link">Dashboard</a>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -112,12 +117,69 @@
                 <p>&copy; 2025 Autoflex. All rights reserved.</p>
             </div>
         </div>
-    </footer>
-
-    <!-- Firebase Scripts -->
+    </footer>    <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <script>
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAUJ-0vLu7aOI8_fZdmLhXYmJZpn9k6tJI",
+        authDomain: "autoflex-b4b7e.firebaseapp.com",
+        projectId: "autoflex-b4b7e",
+        storageBucket: "autoflex-b4b7e.appspot.com",
+        messagingSenderId: "399169724046",
+        appId: "1:399169724046:web:0123456789abcdef123456"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Check authentication state and update UI
+    auth.onAuthStateChanged((user) => {
+        const userSection = document.getElementById('userSection');
+        const loginBtn = document.getElementById('loginBtn');
+        const userProfile = document.getElementById('userProfile');
+        const profileAvatar = document.getElementById('profileAvatar');
+        
+        if (user) {
+            // User is signed in
+            loginBtn.style.display = 'none';
+            userProfile.style.display = 'flex';
+            
+            // Set profile picture with improved error handling
+            if (user.photoURL) {
+                console.log("Setting profile picture from Google:", user.photoURL);
+                const proxyURL = user.photoURL.replace('s96', 's400');
+                profileAvatar.src = proxyURL;
+                
+                profileAvatar.onerror = function() {
+                    console.error("Failed to load Google profile image, trying original");
+                    this.src = user.photoURL;
+                    this.onerror = function() {
+                        console.error("Failed to load original, using placeholder");
+                        this.src = '/api/placeholder/40/40';
+                    };
+                };
+            } else {
+                profileAvatar.src = '/api/placeholder/40/40';
+            }
+        } else {
+            // User is signed out
+            loginBtn.style.display = 'block';
+            userProfile.style.display = 'none';
+        }
+    });
+
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    });
+    </script>
     
     <!-- Custom Scripts -->
     <script src="services.js"></script>

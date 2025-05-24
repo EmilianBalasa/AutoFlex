@@ -624,18 +624,50 @@ async function loadUserData(user) {
         
         if (userName) userName.textContent = `${userData.firstName} ${userData.lastName}`;
         if (userEmail) userEmail.textContent = userData.email;
-        
-        // Properly handle profile image from Google or Firebase Storage
-        if (user.photoURL) {
+          // Properly handle profile image from Google or Firebase Storage
+        console.log("User object:", user);
+        console.log("User photoURL:", user.photoURL);
+        console.log("UserData profileImage:", userData.profileImage);
+        console.log("UserAvatar element:", userAvatar);        if (user.photoURL) {
             console.log("Using Google profile image:", user.photoURL);
-            if (userAvatar) userAvatar.src = user.photoURL;
-        } else if (userData.profileImage) {
+            if (userAvatar) {
+                // Create a new image to test loading before setting it
+                const testImg = new Image();
+                testImg.crossOrigin = "anonymous";
+                
+                testImg.onload = function() {
+                    console.log("Google profile image loaded successfully");
+                    userAvatar.src = this.src;
+                };
+                
+                testImg.onerror = function() {
+                    console.error("Failed to load Google profile image, using placeholder");
+                    userAvatar.src = '/api/placeholder/70/70';
+                };
+                
+                // Try higher quality image first
+                const proxyURL = user.photoURL.replace('s96', 's400');
+                testImg.src = proxyURL;
+                
+                console.log("Set userAvatar src to:", proxyURL);
+            }
+        }else if (userData.profileImage) {
             console.log("Using Firebase Storage profile image");
-            if (userAvatar) userAvatar.src = userData.profileImage;
+            if (userAvatar) {
+                userAvatar.src = userData.profileImage;
+                
+                userAvatar.onerror = function() {
+                    console.error("Failed to load Firebase profile image, using placeholder");
+                    this.src = '/api/placeholder/70/70';
+                };
+            }
         } else {
             console.log("Using placeholder image");
-            if (userAvatar) userAvatar.src = '/api/placeholder/70/70';
-        }
+            if (userAvatar) userAvatar.src = '/api/placeholder/70/70';        }
+        
+        // Extract and set user role
+        currentUserRole = userData.role || 'client';
+        console.log("User role set to:", currentUserRole);
         
         // Pre-populate settings form
         if (document.getElementById('firstName')) document.getElementById('firstName').value = userData.firstName || '';
