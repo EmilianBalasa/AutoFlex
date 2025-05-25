@@ -193,29 +193,14 @@ function fetchSearchResults(service, location) {
     
     if (!resultsContainer || !noResultsMessage) return;
     
-    resultsContainer.innerHTML = '';      // Try to initialize Firebase Firestore if available
+    resultsContainer.innerHTML = '';    // Try to initialize Firebase Firestore if available
     let db = null;
     try {
         if (typeof firebase !== 'undefined' && firebase.firestore) {
-            // Initialize Firebase with your config if not already initialized
-            if (!firebase.apps || !firebase.apps.length) {
-                // Firebase configuration - same as in other files
-                const firebaseConfig = {
-                    apiKey: "AIzaSyBCJXaADkSOQO9CcV2qub7Fwlu9o4OPSPc",
-                    authDomain: "autoflex-83dba.firebaseapp.com",
-                    projectId: "autoflex-83dba",
-                    storageBucket: "autoflex-83dba.appspot.com",
-                    messagingSenderId: "921645337376",
-                    appId: "1:921645337376:web:fbd7dfd8fb9ef056e7a545",
-                    measurementId: "G-DV3KB8X20D"
-                };
-                
-                firebase.initializeApp(firebaseConfig);
-                console.log('Firebase initialized with config');
-            }
-            
+            // Use existing Firebase instance if already initialized
             db = firebase.firestore();
-            console.log('Firebase Firestore initialized');        } else {
+            console.log('Firebase Firestore initialized');
+        } else {
             console.log('Firebase not available, no services will be shown');
         }
     } catch (error) {
