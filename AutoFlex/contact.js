@@ -68,6 +68,13 @@ faqItems.forEach(item => {
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
+    const submitBtn = this.querySelector('.submit-btn');
+    const messageDiv = document.getElementById('contactMessage');
+    
+    // Disable submit button during request
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    
     // Get form data
     const formData = {
         name: document.getElementById('name').value,
@@ -77,12 +84,33 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         message: document.getElementById('message').value
     };
     
-    // Here you would typically send the data to your server
-    // For demonstration, we'll just show an alert
-    alert('Thank you for your message! We will get back to you soon.');
-    
-    // Reset form
-    this.reset();
+    // Send to PHP mailer
+    fetch('contact-mailer.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        messageDiv.style.display = 'block';
+        messageDiv.className = 'contact-message ' + (data.success ? 'success' : 'error');
+        messageDiv.textContent = data.message;
+        
+        if (data.success) {
+            this.reset();
+        }
+    })
+    .catch(error => {
+        messageDiv.style.display = 'block';
+        messageDiv.className = 'contact-message error';
+        messageDiv.textContent = 'An error occurred. Please try again later.';
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+    });
 });
 
 // Newsletter Form
