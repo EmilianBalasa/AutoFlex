@@ -80,7 +80,7 @@ function initializeAuth() {
             showLoading(true);
             auth.signOut()
                 .then(() => {
-                    window.location.href = 'autoflex.html';
+                    window.location.href = 'index.html';
                 })
                 .catch(error => {
                     showLoading(false);
