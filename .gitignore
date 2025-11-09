@@ -1,0 +1,13 @@
+# Firebase credentials
+firebase-config.js
+
+# IDE-specific files
+.idea/
+
+# Log files
+*.log
+contact_log.txt
+
+# OS-specific files
+.DS_Store
+Thumbs.db

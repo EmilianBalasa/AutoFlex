@@ -1,20 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Animation on scroll
-    const animatedElements = document.querySelectorAll('.animate');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = 1;
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    animatedElements.forEach(element => {
-        element.style.opacity = 0;
-        observer.observe(element);
-    });
-
     // Initialize Search Functionality
     const searchBtn = document.getElementById('searchBtn');
     const serviceSearch = document.getElementById('serviceSearch');
